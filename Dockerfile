@@ -1,6 +1,6 @@
 FROM node:16.14 as build-stage
 
-RUN apt update && apt install git -y
+RUN apt-get update && apt-get install git -y
 WORKDIR /var/
 
 COPY . /var/
