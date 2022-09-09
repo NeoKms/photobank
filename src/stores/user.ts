@@ -6,7 +6,7 @@ import { errRequestHandler } from "@/plugins/errorResponser";
 
 type User = {
   id: number;
-  fio: string;
+  fullname: string;
   rights: SimpleObject;
 } | null;
 
