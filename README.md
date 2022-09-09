@@ -1,4 +1,13 @@
-### npm run prepare для пре-коммита
+## Настройка
+### Способ 1. Локальный.
+[Загружаем и настраиваем API](https://github.com/NeoKms/photobank_api)
+
+В файле ```./envconfig.js``` меняем переменную ```API_URL``` на адрес API и запускаем приложение.
+
+### Способ 2. Контейнер.
+
+Должен быть передан enviroment ```VUE_API_URL``` и после старта приложения запущен shell-script ```getenv.sh```
+
 ## Дока стора 
 https://pinia.vuejs.org/cookbook/migration-vuex.html#usage-inside-components
 ## Дока дизайнера
@@ -27,6 +36,8 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Для подключения пре-коммита
 
 ```sh
 npm run prepare
