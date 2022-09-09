@@ -12,6 +12,10 @@
 
 В проекте лежат конфигурации для запуска. Надо взять два файла ```services.yaml``` и ```apps.yaml```, заполнить их данными и запустить.
 
+```docker-compose -f services.yaml up -d && docker-compose -f apps.yaml up -d ```
+
+Для работы клиента надо запустить команду ```docker exec -it photobank_client sh -c "cd /usr/share/nginx/html && sh getenv.sh"```
+
 ## Дока стора 
 https://pinia.vuejs.org/cookbook/migration-vuex.html#usage-inside-components
 ## Дока дизайнера
