@@ -16,6 +16,8 @@
 
 Для работы клиента надо запустить команду ```docker exec -it photobank_client sh -c "cd /usr/share/nginx/html && sh getenv.sh"```
 
+vuejs3, pinia, element-ui
+
 ## Дока стора 
 https://pinia.vuejs.org/cookbook/migration-vuex.html#usage-inside-components
 ## Дока дизайнера
