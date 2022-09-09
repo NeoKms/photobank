@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { axiosClient } from "@/plugins/axios";
 import { envConfig } from "@/plugins/envConfig";
 import type { SimpleObject } from "./photobank";
-import {errRequestHandler} from "@/plugins/errorResponser";
+import { errRequestHandler } from "@/plugins/errorResponser";
 
 type User = {
   id: number;
@@ -41,21 +41,21 @@ export const useUserStore = defineStore({
   actions: {
     login(payload: loginData): Promise<boolean> {
       return axiosClient
-          .post(`${envConfig.API_URL}auth/login`, payload)
-          .then((resp) => {
-            const respdata: ResultWithMessage = resp.data;
-            if (
-                Object.prototype.hasOwnProperty.call(respdata, "message") &&
-                respdata.message === "ok"
-            ) {
-              this.is_auth = true;
-              this.user = respdata.result;
-              return true;
-            } else {
-              return respdata.message || -1;
-            }
-          })
-          .catch((e) => errRequestHandler(e));
+        .post(`${envConfig.API_URL}auth/login`, payload)
+        .then((resp) => {
+          const respdata: ResultWithMessage = resp.data;
+          if (
+            Object.prototype.hasOwnProperty.call(respdata, "message") &&
+            respdata.message === "ok"
+          ) {
+            this.is_auth = true;
+            this.user = respdata.result;
+            return true;
+          } else {
+            return respdata.message || -1;
+          }
+        })
+        .catch((e) => errRequestHandler(e));
     },
     showLoader() {
       this.globalLoader = true;

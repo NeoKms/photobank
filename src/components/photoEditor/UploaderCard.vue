@@ -58,9 +58,10 @@ const saturation = ref(0);
 const contrast = ref(0);
 const editor = ref<any | HTMLCanvasElement>(null);
 const croppComponent = ref<any | CroppComponentInterface>(null);
-console.log('defaultStencilRatio',defaultStencilRatio.value)
+console.log("defaultStencilRatio", defaultStencilRatio.value);
 const cropperProps = ref({
-  aspectRatio: defaultStencilRatio.value>0?defaultStencilRatio.value : 16/9,
+  aspectRatio:
+    defaultStencilRatio.value > 0 ? defaultStencilRatio.value : 16 / 9,
   resizable: true,
 });
 const currentProportion = computed(() => {
@@ -127,18 +128,18 @@ const setProportion = () => {
   try {
     if (currentProportion.value) {
       const comarr = stencilAcceptRatios.value.map((r) =>
-          Math.abs(currentProportion.value - r.ratio)
+        Math.abs(currentProportion.value - r.ratio)
       );
       const min = Math.min(...comarr);
       const minInd = comarr.findIndex((el) => el === min);
-      console.log('cropperProps.value.aspectRatio',cropperProps.value)
+      console.log("cropperProps.value.aspectRatio", cropperProps.value);
       if (cropperProps?.value?.aspectRatio) {
         // cropperProps.value.aspectRatio = stencilAcceptRatios.value[minInd].ratio;
       }
       setTimeout(() => reloadCropper(), 100);
     }
   } catch (err) {
-    console.log('AAAAAAAA',err)
+    console.log("AAAAAAAA", err);
   }
 };
 watch(currentProportion, setProportion);

@@ -10,6 +10,7 @@ window.envConfig = (() => {
       result[splitted[0].split("VUE_")[1]] = splitted[1];
     }
   }
-  result.PRODUCTION = String(result.PRODUCTION || false).toLowerCase() == "true";
+  result.PRODUCTION =
+    String(result.PRODUCTION || false).toLowerCase() == "true";
   return result;
 })();

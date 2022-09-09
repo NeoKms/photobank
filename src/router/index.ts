@@ -66,7 +66,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
   userStore.showLoader();
-  if (to.name==='login') {
+  if (to.name === "login") {
     userStore.checkAuth().then((res) => {
       if (res) {
         return next("/");
