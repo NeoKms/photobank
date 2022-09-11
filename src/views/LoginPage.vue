@@ -10,8 +10,8 @@ const showLoader = () => (initLoader.value = true);
 const hideLoader = () => (initLoader.value = false);
 ///
 const form = ref({
-  username: "",
-  password: "",
+  username: "root",
+  password: "root",
 });
 const sendLogin = () => {
   showLoader();
