@@ -17,6 +17,10 @@ defineProps({
 });
 ////
 const rights = computed(() => UserStore.getRights);
+const redirToMain = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  window.location.href='https://jrgreez.ru/'
+};
 </script>
 <template>
   <el-menu
@@ -56,7 +60,7 @@ const rights = computed(() => UserStore.getRights);
       </el-icon>
       <template #title>Настройки</template>
     </el-menu-item>
-    <el-menu-item index="https://jrgreez.ru/" v-on:click.stop.prevent="window.location.href='https://jrgreez.ru/'">
+    <el-menu-item index="https://jrgreez.ru/" v-on:click.stop.prevent="redirToMain">
       <el-icon>
         <HomeFilled />
       </el-icon>
