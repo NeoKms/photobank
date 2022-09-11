@@ -56,7 +56,7 @@ const rights = computed(() => UserStore.getRights);
       </el-icon>
       <template #title>Настройки</template>
     </el-menu-item>
-    <el-menu-item index="https://jrgreez.ru/">
+    <el-menu-item index="https://jrgreez.ru/" v-on:click.stop.prevent="window.location.href='https://jrgreez.ru/'">
       <el-icon>
         <HomeFilled />
       </el-icon>
