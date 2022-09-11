@@ -154,8 +154,7 @@ export type {
 };
 
 function getImageFullPath(src: string): string {
-  const isDev = envConfig.API_URL.indexOf(".dev.lan") !== -1;
-  return `${isDev ? envConfig.API_URL : "https://static.riafan.ru/"}${src}`;
+  return `${envConfig.API_URL}${src}`;
 }
 function getCntFilter(filter: FilterSettings): number {
   let cnt = 0;
