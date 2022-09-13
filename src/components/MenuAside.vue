@@ -2,7 +2,7 @@
 import { Folder, FolderDelete, Menu } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 const UserStore = useUserStore();
 const route = useRoute();
 defineProps({
@@ -17,10 +17,19 @@ defineProps({
 });
 ////
 const rights = computed(() => UserStore.getRights);
-const redirToMain = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  window.location.href='https://jrgreez.ru/'
+const sleep = async (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 };
+onMounted(async () => {
+  let extLink1 = window?.document?.getElementById("external-1");
+  while (!extLink1) {
+    extLink1 = window?.document?.getElementById("external-1");
+    await sleep(50);
+  }
+  extLink1.addEventListener("click",()=>{
+    window.location.href = "https://jrgreez.ru";
+  })
+});
 </script>
 <template>
   <el-menu
@@ -60,7 +69,7 @@ const redirToMain = () => {
       </el-icon>
       <template #title>Настройки</template>
     </el-menu-item>
-    <el-menu-item index="https://jrgreez.ru/" v-on:click.stop.prevent="redirToMain">
+    <el-menu-item id="external-1">
       <el-icon>
         <HomeFilled />
       </el-icon>
