@@ -17,7 +17,7 @@ defineProps({
 });
 ////
 const rights = computed(() => UserStore.getRights);
-const sleep = async (ms) => {
+const sleep = async (ms: any) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 onMounted(async () => {
