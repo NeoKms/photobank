@@ -75,6 +75,8 @@ const isError = ref(false);
         v-if="!cardData.deleted_at"
         :title="$t('watermark.delete_confirm')"
         @confirm="emit('delete', [cardData.id])"
+        :cancel-button-text="$t('cancel')"
+        :confirm-button-text="$t('ok')"
       >
         <template #reference>
           <el-button type="danger" icon="Delete" @click.stop />

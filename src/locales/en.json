@@ -45,7 +45,9 @@
       "horizontal": "Flip horizontally",
       "vertical": "Flip vertical"
     },
-    "click_drop_info": "Click or drag images here (max. 50)"
+    "click_drop_info": "Click or drag images here (max. 50)",
+    "rollback_image": "Are you sure you want to return the image?",
+    "delete": "Are you sure you want to delete the image?"
   },
   "d": {
     "type": "Type",
@@ -54,7 +56,13 @@
     "description": "Description",
     "tags": "Tags",
     "source": "Source",
-    "author": "Author"
+    "author": "Author",
+    "sources": "Sources",
+    "authors": "Authors",
+    "number": "Number",
+    "without_sources": "Exclude sources",
+    "creator": "Creator",
+    "creators": "Creators"
   },
   "del_from": {
     "del": "Delete after",
@@ -69,14 +77,24 @@
   "apply": "Confirm",
   "back": "Back",
   "next": "Next",
+  "ok": "OK",
   "watermark": {
     "upload": "Watermark upload...",
     "logo": "Logo",
     "fill": "Fill on the whole image",
     "name": "Name",
-    "click_or_upload": "Click or <em>drop watermark here</em>",
+    "click_or_upload": "Click or drop watermark here",
     "save": "Save the watermark...",
     "saved_success": "Saved successfully",
     "delete_confirm": "Are you sure you want to remove the watermark?"
+  },
+  "rollback": "Return",
+  "accept": "Apply (enter)",
+  "calendar": {
+    "today": "Today",
+    "weeks": "During the week",
+    "months": "During the month",
+    "to": "to",
+    "created_date": "Date of creation"
   }
 }

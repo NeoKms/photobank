@@ -2,7 +2,9 @@
 import { ref, computed } from "vue";
 import { formatDateJS } from "@/plugins/dates";
 import { usePhotobankStore } from "@/stores/photobank";
+import {useI18n} from "vue-i18n";
 const PhotobankStore = usePhotobankStore();
+const i18n = useI18n();
 const props = defineProps({
   cardData: {
     type: Object,
@@ -171,14 +173,14 @@ const addTagInFilter = (tagStr: string) => {
     </div>
     <div
       class="card__author"
-      v-tooltip.auto="'Автор'"
+      v-tooltip.auto="$t('d.author')"
       v-if="cardSettings.author"
     >
       {{ cardData.author_name }}
     </div>
     <div
       class="card__source"
-      v-tooltip.auto="'Источник'"
+      v-tooltip.auto="$t('d.source')"
       v-if="cardSettings.source"
     >
       {{ cardData.source_name }}
@@ -220,8 +222,10 @@ const addTagInFilter = (tagStr: string) => {
         >
         <el-popconfirm
           v-if="cardData.deleted_at"
-          title="Точно хотите вернуть изображение?"
+          :title="$t('photo_editor.rollback_image')"
           @confirm="emit('undelete', [cardData.id])"
+          :confirm-button-text="$t('ok')"
+          :cancel-button-text="$t('cancel')"
         >
           <template #reference>
             <el-button
@@ -229,7 +233,7 @@ const addTagInFilter = (tagStr: string) => {
               type="warning"
               icon="RefreshLeft"
               @click.stop
-              v-tooltip.auto="'Вернуть'"
+              v-tooltip.auto="$t('rollback')"
             />
           </template>
         </el-popconfirm>
@@ -243,8 +247,10 @@ const addTagInFilter = (tagStr: string) => {
         />
         <el-popconfirm
           v-if="!cardData.deleted_at"
-          title="Точно хотите удалить изображение?"
+          :title="$t('photo_editor.delete')"
           @confirm="emit('delete', [cardData.id])"
+          :confirm-button-text="$t('ok')"
+          :cancel-button-text="$t('cancel')"
         >
           <template #reference>
             <el-button
