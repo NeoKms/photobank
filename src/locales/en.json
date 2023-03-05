@@ -21,7 +21,9 @@
     "init": "Initialization error",
     "404": "404 not found",
     "unknown_error": "Unknown error",
-    "no_rights": "Not enough rights to act"
+    "no_rights": "Not enough rights to act",
+    "login": "Invalid username/password",
+    "not_empty": "Must not be empty!"
   },
   "photo_editor": {
     "edit": "Photo editing",
@@ -99,5 +101,11 @@
     "months": "During the month",
     "to": "to",
     "created_date": "Date of creation"
+  },
+  "auth": {
+    "title": "Authorization",
+    "write_pass": "Enter password",
+    "write_login": "Enter login",
+    "enter": "Sign In"
   }
 }
