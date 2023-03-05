@@ -3,6 +3,8 @@ import { ref, computed, onMounted } from "vue";
 import { usePhotobankStore } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
 import type { User } from "@/stores/photobank";
+import {useI18n} from "vue-i18n";
+const i18n = useI18n();
 const PhotobankStore = usePhotobankStore();
 const initLoader = ref(true);
 const showLoader = () => (initLoader.value = true);
@@ -23,7 +25,7 @@ const fetchUsers = () => {
     },
   }).then((res) => {
     hideLoader();
-    return errVueHandler(res);
+    return errVueHandler(res, null, i18n);
   });
 };
 onMounted(() => {
@@ -50,7 +52,7 @@ const confirmDelete = () => {
   PhotobankStore.sendDeleteImagesByUserId(userToDeleteImages.value.id).then(
     (res) => {
       hideLoader();
-      if (errVueHandler(res)) {
+      if (errVueHandler(res, null, i18n)) {
         fetchUsers();
       }
     }

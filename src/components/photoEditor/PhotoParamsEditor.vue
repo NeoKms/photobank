@@ -9,7 +9,9 @@ import {
   type ImageToUpload,
 } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
+import {useI18n} from "vue-i18n";
 const emit = defineEmits(["update:modelValue"]);
+const i18n = useI18n();
 const PhotobankStore = usePhotobankStore();
 const props = defineProps({
   modelValue: {
@@ -115,7 +117,7 @@ const tagsSearchAsync = (name: string, cb: (arg: any) => void) => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       cb(tags.value);
     }
   });
@@ -137,7 +139,7 @@ const authorsSearchAsync = (name: string, cb: (arg: any) => void) => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       cb(authors.value);
     }
   });
@@ -159,7 +161,7 @@ const sourcesSearchAsync = (name: string, cb: (arg: any) => void) => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       cb(sources.value);
     }
   });

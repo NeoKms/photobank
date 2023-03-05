@@ -82,9 +82,9 @@ const fetchProps = (images: ImageToUpload[]) => {
   return Promise.allSettled(promises).then((res) => {
     res.map((el) => {
       if (el.status === "fulfilled") {
-        errVueHandler(el.value);
+        errVueHandler(el.value, null, i18n);
       } else {
-        errVueHandler(el.reason, el.reason);
+        errVueHandler(el.reason, el.reason, i18n);
       }
       hideLoader();
     });
@@ -93,7 +93,7 @@ const fetchProps = (images: ImageToUpload[]) => {
 const dataset = computed(() => PhotobankStore.listToEdit);
 onMounted(() => {
   PhotobankStore.fetchImagesForEditor(props.ids).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       fetchProps(dataset.value);
     }
   });
@@ -108,7 +108,7 @@ const sendImages = () => {
     duration: 0,
   });
   PhotobankStore.sendImagesUpd(dataset.value).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       emit("close");
       ElMessage({
         message: i18n.t("notif.success_save"),

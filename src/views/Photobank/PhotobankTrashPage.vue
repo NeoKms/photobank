@@ -4,7 +4,9 @@ import { usePhotobankStore, type FilterSettings } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
 import PhotoFilter from "@/components/PhotoFilter.vue";
 import { ElMessage, ElNotification, ElMessageBox } from "element-plus";
+import {useI18n} from "vue-i18n";
 const PhotobankStore = usePhotobankStore();
+const i18n = useI18n();
 const initLoader = ref(true);
 const showLoader = () => (initLoader.value = true);
 const hideLoader = () => (initLoader.value = false);
@@ -15,7 +17,7 @@ const apiCall = () => {
   const timeStart = Date.now();
   showLoader();
   return PhotobankStore.fetchListTrash().then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       setTimeout(
         () => hideLoader(),
         Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0
@@ -63,7 +65,7 @@ const undeleteRequest = (ids: number[]) => {
   showLoader();
   PhotobankStore.undeleteImage(ids).then((res) => {
     msg.close();
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       apiCall(); /*ToDo*/
       ElMessage({
         message: "Успешно восстановлено!",

@@ -15,7 +15,11 @@
     "upload": "Uploading your beautiful images",
     "gif_to_static": "GIF will be converted to a static image!",
     "no_svg": "SVG not supported",
-    "not_supported_type": "{type} not supported"
+    "not_supported_type": "{type} not supported",
+    "delete_in_progress": "Blowing the dust off the trash...",
+    "success_delete": "Successfully deleted",
+    "warning": "Warning",
+    "delete_img_cnt": "Are you sure you want to remove {count} images?"
   },
   "errors": {
     "init": "Initialization error",
@@ -67,7 +71,19 @@
     "number": "Number",
     "without_sources": "Exclude sources",
     "creator": "Creator",
-    "creators": "Creators"
+    "creators": "Creators",
+    "search_in_photos": "Photo search",
+    "filters": "Filters",
+    "add_photo": "Add photo",
+    "edit_selected_photo": "Edit selected photos",
+    "delete_selected_photo": "Delete selected photos",
+    "refresh_selected": "Reset selection",
+    "empty_result": [
+      "Oops... nothing found.",
+      "Try changing filters.",
+      "Maybe a date?"
+    ],
+    "edit_filters": "Customize filters"
   },
   "del_from": {
     "del": "Delete after",
@@ -90,7 +106,6 @@
     "name": "Name",
     "click_or_upload": "Click or drop watermark here",
     "save": "Save the watermark...",
-    "saved_success": "Saved successfully",
     "delete_confirm": "Are you sure you want to remove the watermark?"
   },
   "rollback": "Return",
@@ -107,5 +122,10 @@
     "write_pass": "Enter password",
     "write_login": "Enter login",
     "enter": "Sign In"
-  }
+  },
+  "tip": {
+    "title": "Tip",
+    "message": "Double click on card to select multiple images"
+  },
+  "refresh": "Refresh"
 }

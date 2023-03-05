@@ -164,7 +164,7 @@ const sendImages = () => {
     duration: 0,
   });
   PhotobankStore.sendImages(imagesData.value).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       emit("success");
       ElMessage({
         message: i18n.t("notif.success_save"),
@@ -188,7 +188,7 @@ onMounted(() => {
       itemsPerPage: 5,
     },
   }).then((res) => {
-    if (errVueHandler(res, i18n.t("errors.init"))) {
+    if (errVueHandler(res, i18n.t("errors.init"), i18n)) {
       hideLoader();
       if (props.externalDropImages.length) {
         changeFileInput(props.externalDropImages);

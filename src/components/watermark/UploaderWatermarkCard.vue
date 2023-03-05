@@ -148,10 +148,10 @@ const sendImage = async () => {
     duration: 0,
   });
   WatermarkStore.sendImage(imageData.value as Watermark).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       emit("close");
       ElMessage({
-        message: i18n.t("watermark.saved_success"),
+        message: i18n.t("notif.success_save"),
         type: "success",
         center: true,
         duration: 2000,

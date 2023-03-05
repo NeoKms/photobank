@@ -19,7 +19,7 @@ const form = ref({
 const sendLogin = () => {
   showLoader();
   UserStore.login(form.value).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       router.push("/");
     } else {
       ElMessage({

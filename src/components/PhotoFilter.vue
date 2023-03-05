@@ -98,7 +98,7 @@ const fetchTags = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });
@@ -117,7 +117,7 @@ const fetchUsers = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });
@@ -136,7 +136,7 @@ const fetchSources = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });
@@ -155,7 +155,7 @@ const fetchAtuhors = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });

@@ -6,7 +6,9 @@ import WatermarkCard from "../../components/watermark/WatermarkCard.vue";
 import { errVueHandler } from "@/plugins/errorResponser";
 import { ElMessage, ElMessageBox } from "element-plus/es";
 import { FolderAdd } from "@element-plus/icons-vue";
+import {useI18n} from "vue-i18n";
 
+const i18n = useI18n();
 const WatermarkStore = useWatermarkStore();
 const initLoader = ref(true);
 const showLoader = () => (initLoader.value = true);
@@ -16,7 +18,7 @@ const apiCall = () => {
   const timeStart = Date.now();
   showLoader();
   return WatermarkStore.fetchListMain().then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       setTimeout(
         () => hideLoader(),
         Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0
@@ -75,7 +77,7 @@ const sendDelWatermarkRequest = (id: number) => {
     duration: 0,
   });
   return WatermarkStore.sendDeleteWatermark(id).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       apiCall(); /*ToDo*/
       ElMessage({
         message: "Успешно удалено!",

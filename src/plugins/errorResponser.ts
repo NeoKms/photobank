@@ -1,10 +1,8 @@
 import { ElMessage } from "element-plus";
 import router from "@/router";
-import {useI18n} from "vue-i18n";
 import {envConfig} from "@/plugins/envConfig";
 
-export const errVueHandler = (res: number | boolean | string, errText = "") => {
-  const i18n = useI18n();
+export const errVueHandler = (res: number | boolean | string, errText = null, i18n: any) => {
   if (res === true) {
     return true;
   }
@@ -32,8 +30,7 @@ export const errVueHandler = (res: number | boolean | string, errText = "") => {
   return false;
 };
 
-export const errRequestHandler = (err: any) => {
-  const i18n = useI18n();
+export const errRequestHandler = (err: any, i18n: any) => {
   if (!envConfig.PRODUCTION) {
     console.error(err);
   }
