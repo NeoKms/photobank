@@ -1,11 +1,72 @@
 {
   "title": "Photobank",
-  "menu":{
+  "menu": {
     "photos": "Gallery",
     "trash": "Trash",
     "wm": "Watermarks",
     "metric": "Creators",
     "settings": "Settings",
     "home": "Back to Home"
-  }
+  },
+  "notif": {
+    "save_photo": "Saving your beautiful photos...",
+    "success_save": "Saved successfully",
+    "not_all_sources": "Not all images have a source!",
+    "upload": "Uploading your beautiful images",
+    "gif_to_static": "GIF will be converted to a static image!",
+    "no_svg": "SVG not supported",
+    "not_supported_type": "{type} not supported"
+  },
+  "errors": {
+    "init": "Initialization error"
+  },
+  "photo_editor": {
+    "edit": "Photo editing",
+    "multi": "Multi-Editing",
+    "tag_add": "Enter a tag",
+    "not_selected": "Not selected",
+    "write_source": "Enter source",
+    "write_author": "Enter author",
+    "steps": {
+      "upload": "Image upload",
+      "crop": "Crop",
+      "params": "Group parameters",
+      "check": "Verification"
+    },
+    "frame_format": "Frame format",
+    "rotate": {
+      "left": "Turn left",
+      "right": "Turn right"
+    },
+    "brightness": "Brightness",
+    "saturation": "Saturation",
+    "contrast": "Contrast",
+    "flip": {
+      "horizontal": "Flip horizontally",
+      "vertical": "Flip vertical"
+    },
+    "click_drop_info": "Click or drag images here (max. 50)"
+  },
+  "d": {
+    "type": "Type",
+    "type_photo": "Photo",
+    "type_illus": "Illustration",
+    "description": "Description",
+    "tags": "Tags",
+    "source": "Source",
+    "author": "Author"
+  },
+  "del_from": {
+    "del": "Delete after",
+    "day": "Day",
+    "month": "Month"
+  },
+  "cancel": "Cancel",
+  "cancel_changed": "Cancel",
+  "save": "Save",
+  "error": "Error",
+  "delete": "Delete",
+  "apply": "Confirm",
+  "back": "Back",
+  "next": "Next"
 }
