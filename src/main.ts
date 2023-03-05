@@ -15,9 +15,11 @@ import "floating-vue/dist/style.css";
 import "element-plus/theme-chalk/display.css";
 import "./assets/b-spacing.css";
 import RuLocale from "element-plus/es/locale/lang/ru";
+import i18n from "@/plugins/i18n";
 
 const app = createApp(App);
 
+app.use(i18n);
 app.directive("tooltip", VTooltip);
 app.use(ElementPlus, {
   locale: RuLocale,

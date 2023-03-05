@@ -1,0 +1,11 @@
+{
+  "title": "Photobank",
+  "menu":{
+    "photos": "Gallery",
+    "trash": "Trash",
+    "wm": "Watermarks",
+    "metric": "Creators",
+    "settings": "Settings",
+    "home": "Back to Home"
+  }
+}
