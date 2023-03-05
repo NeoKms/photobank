@@ -4,7 +4,6 @@ import {
   type NavigationGuardNext,
 } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import { envConfig } from "@/plugins/envConfig";
 
 interface rightsObj {
   [key: string]: any;

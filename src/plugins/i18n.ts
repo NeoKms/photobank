@@ -1,4 +1,4 @@
-import { createI18n } from 'vue-i18n'
+import {createI18n} from 'vue-i18n'
 
 const messages = {
     en: await import("@/locales/en.json"),

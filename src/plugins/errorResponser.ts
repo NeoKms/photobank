@@ -1,6 +1,10 @@
 import { ElMessage } from "element-plus";
 import router from "@/router";
+import {useI18n} from "vue-i18n";
+import {envConfig} from "@/plugins/envConfig";
+
 export const errVueHandler = (res: number | boolean | string, errText = "") => {
+  const i18n = useI18n();
   if (res === true) {
     return true;
   }
@@ -8,7 +12,7 @@ export const errVueHandler = (res: number | boolean | string, errText = "") => {
     router.push("/");
   } else if (res === 403) {
     ElMessage({
-      message: "Недостаточно прав для действия",
+      message: i18n.t("errors.no_rights"),
       type: "error",
       center: true,
       duration: 0,
@@ -18,7 +22,7 @@ export const errVueHandler = (res: number | boolean | string, errText = "") => {
     ElMessage({
       message: errText
         ? errText
-        : (res === "" || res === false ? "Неизвестная ошибка" : res).toString(),
+        : (res === "" || res === false ? i18n.t('errors.unknown_error') : res).toString(),
       type: "error",
       center: true,
       duration: 0,
@@ -29,7 +33,8 @@ export const errVueHandler = (res: number | boolean | string, errText = "") => {
 };
 
 export const errRequestHandler = (err: any) => {
-  if (process.env.NODE_ENV !== "production") {
+  const i18n = useI18n();
+  if (!envConfig.PRODUCTION) {
     console.error(err);
   }
   if (Object.prototype.hasOwnProperty.call(err, "response") && err.response) {
@@ -39,8 +44,8 @@ export const errRequestHandler = (err: any) => {
         err.response?.data?.message ||
         err.response?.data?.errors ||
         (err.response?.status === 404
-          ? "404 не найдено"
-          : "Неизвестная ошибка");
+          ? ""
+          : i18n.t("errors.unknown_error"));
       if (Array.isArray(text)) {
         text = text?.map((el) => el.message).join("\n");
       }

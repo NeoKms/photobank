@@ -18,7 +18,10 @@
     "not_supported_type": "{type} not supported"
   },
   "errors": {
-    "init": "Initialization error"
+    "init": "Initialization error",
+    "404": "404 not found",
+    "unknown_error": "Unknown error",
+    "no_rights": "Not enough rights to act"
   },
   "photo_editor": {
     "edit": "Photo editing",
