@@ -68,5 +68,15 @@
   "delete": "Delete",
   "apply": "Confirm",
   "back": "Back",
-  "next": "Next"
+  "next": "Next",
+  "watermark": {
+    "upload": "Watermark upload...",
+    "logo": "Logo",
+    "fill": "Fill on the whole image",
+    "name": "Name",
+    "click_or_upload": "Click or <em>drop watermark here</em>",
+    "save": "Save the watermark...",
+    "saved_success": "Saved successfully",
+    "delete_confirm": "Are you sure you want to remove the watermark?"
+  }
 }

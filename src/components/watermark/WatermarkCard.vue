@@ -73,7 +73,7 @@ const isError = ref(false);
     <footer class="card__actions-bar">
       <el-popconfirm
         v-if="!cardData.deleted_at"
-        title="Точно хотите удалить изображение?"
+        :title="$t('watermark.delete_confirm')"
         @confirm="emit('delete', [cardData.id])"
       >
         <template #reference>

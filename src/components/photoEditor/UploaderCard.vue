@@ -300,7 +300,7 @@ const changeFileInput = (files: null | FileList = null) => {
           return true;
         } else if (img.type === "image/svg+xml") {
           ElMessage({
-            message: i18n.t("no_svg"),
+            message: i18n.t("notif.not_supported_type",{type:"SVG"}),
             type: "warning",
             center: true,
             duration: 0,

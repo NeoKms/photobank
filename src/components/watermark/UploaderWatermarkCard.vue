@@ -2,7 +2,7 @@
   <el-card class="uploader-card">
     <el-row class="card__header">
       <el-col>
-        <h1 class="center">Загрузка водяного знака</h1>
+        <h1 class="center">{{$t("watermarks.upload")}}</h1>
       </el-col>
     </el-row>
 
@@ -11,14 +11,14 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <span> Лого </span>
+        <span>{{$t('watermark.logo')}}</span>
         <el-switch
           v-model="type"
           active-color="#42ab27"
           inactive-color="#808080"
         >
         </el-switch>
-        <span> Заливка на все изображение</span>
+        <span>{{$t('watermark.fill')}}</span>
       </el-col>
     </el-row>
     <el-row>
@@ -33,7 +33,7 @@
             v-model="name"
             :rows="1"
             type="textarea"
-            placeholder="Название"
+            :placeholder="$t('watermark.name')"
           />
         </el-card>
       </el-col>
@@ -57,9 +57,9 @@
             <upload-filled />
           </el-icon>
           <div class="el-upload__text">
-            <span class="el-upload__text2"
-              >Кликните или <em>перенесите сюда изображение</em></span
-            >
+            <span class="el-upload__text2">
+              {{$t('watermark.click_or_upload')}}
+            </span>
           </div>
         </el-upload>
       </el-col>
@@ -70,12 +70,12 @@
       style="text-align: -webkit-center"
     >
       <el-col :sm="2" :xs="24">
-        <el-button type="success" :disabled="!name" @click="sendImage"
-          >Сохранить
+        <el-button type="success" :disabled="!name" @click="sendImage">
+          {{$t('save')}}
         </el-button>
       </el-col>
       <el-col :sm="2" :xs="24">
-        <el-button type="danger" @click="$emit('close')">Отмена</el-button>
+        <el-button type="danger" @click="$emit('close')">{{ $t('cancel') }}</el-button>
       </el-col>
     </el-row>
   </el-card>
@@ -86,9 +86,10 @@ import { ref } from "vue";
 import { useWatermarkStore, type Watermark } from "@/stores/watermark";
 import { ElMessage } from "element-plus";
 import { errVueHandler } from "@/plugins/errorResponser";
+import {useI18n} from "vue-i18n";
 
 const WatermarkStore = useWatermarkStore();
-
+const i18n = useI18n();
 const initLoader = ref(true);
 const showLoader = () => (initLoader.value = true);
 const hideLoader = () => (initLoader.value = false);
@@ -107,7 +108,7 @@ const sendImage = async () => {
   if (img.type.indexOf("image/") !== -1 && img.type.indexOf("svg") === -1) {
     if (img.type.indexOf("gif") !== -1) {
       ElMessage({
-        message: "GIF не поддерживается!",
+        message: i18n.t("notif.not_supported_type",{type:"GIF"}),
         type: "warning",
         center: true,
         duration: 0,
@@ -117,7 +118,7 @@ const sendImage = async () => {
     }
   } else if (img.type === "image/svg+xml") {
     ElMessage({
-      message: "SVG не поддерживается",
+      message: i18n.t("notif.not_supported_type",{type:"SVG"}),
       type: "warning",
       center: true,
       duration: 0,
@@ -126,7 +127,7 @@ const sendImage = async () => {
     return false;
   } else {
     ElMessage({
-      message: `${img.type} не поддерживается`,
+      message: i18n.t("notif.not_supported_type",{type:img.type}),
       type: "warning",
       center: true,
       duration: 0,
@@ -141,7 +142,7 @@ const sendImage = async () => {
 
   showLoader();
   const message = ElMessage({
-    message: "Сохраняем изображение...",
+    message: i18n.t("watermark.save"),
     type: "info",
     center: true,
     duration: 0,
@@ -150,7 +151,7 @@ const sendImage = async () => {
     if (errVueHandler(res)) {
       emit("close");
       ElMessage({
-        message: "Успешно сохранено",
+        message: i18n.t("watermark.saved_success"),
         type: "success",
         center: true,
         duration: 2000,
