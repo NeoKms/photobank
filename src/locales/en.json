@@ -19,7 +19,9 @@
     "delete_in_progress": "Blowing the dust off the trash...",
     "success_delete": "Successfully deleted",
     "warning": "Warning",
-    "delete_img_cnt": "Are you sure you want to remove {count} images?"
+    "delete_img_cnt": "Are you sure you want to remove {count} images?",
+    "success_rollback": "Successfully restored",
+    "rollback_img_cnt": "Are you sure you want to restore {count} images?"
   },
   "errors": {
     "init": "Initialization error",
@@ -83,7 +85,9 @@
       "Try changing filters.",
       "Maybe a date?"
     ],
-    "edit_filters": "Customize filters"
+    "edit_filters": "Customize filters",
+    "rollback_photo": "Performing a ritual of resurrection...",
+    "rollback_selected": "Restore selected Photos"
   },
   "del_from": {
     "del": "Delete after",
@@ -106,7 +110,8 @@
     "name": "Name",
     "click_or_upload": "Click or drop watermark here",
     "save": "Save the watermark...",
-    "delete_confirm": "Are you sure you want to remove the watermark?"
+    "delete_confirm": "Are you sure you want to remove the watermark?",
+    "add_wm": "Add watermark"
   },
   "rollback": "Return",
   "accept": "Apply (enter)",
@@ -127,5 +132,33 @@
     "title": "Tip",
     "message": "Double click on card to select multiple images"
   },
-  "refresh": "Refresh"
+  "refresh": "Refresh",
+  "settings": {
+    "title": "Photo card settings",
+    "stencil": "Default Stencil Ratio",
+    "automatically": "Automatically"
+  },
+  "users": {
+    "title": "List of users who uploaded photos",
+    "table": {
+      "name": "Name",
+      "count": "Photos",
+      "actions": "Actions"
+    },
+    "deleted": "Deleted",
+    "confirm_delete": "Are you sure you want to delete the photos of the author?",
+    "delete_tip": "Delete all photos",
+    "dialog": {
+      "title": [
+        "Are you sure you want to delete all photos of the author?",
+        "The photos will be moved to the trash!"
+      ],
+      "cancel": "No I changed my mind",
+      "ok": "I am aware of all the risks associated with this action",
+      "check": {
+        "write": "Enter the number of photos to be deleted {count} in the field below:",
+        "to_trash": "We send to the basket!"
+      }
+    }
+  }
 }

@@ -28,8 +28,8 @@ const apiCall = () => {
 onMounted(() => {
   apiCall();
   ElNotification({
-    title: "Подсказка!",
-    message: "Двойной клик на карточке для выбора нескольких изображений",
+    title: i18n.t("tip.title") + "!",
+    message: i18n.t("tip.message"),
     type: "info",
     duration: 5000,
     position: "bottom-right",
@@ -57,7 +57,7 @@ const clickOnCard = (image: { id: number }) => {
 };
 const undeleteRequest = (ids: number[]) => {
   const msg = ElMessage({
-    message: "Проводим ритуал воскрешения...",
+    message: i18n.t('d.rollback_photo'),
     type: "warning",
     center: true,
     duration: 0,
@@ -66,16 +66,15 @@ const undeleteRequest = (ids: number[]) => {
   PhotobankStore.undeleteImage(ids).then((res) => {
     msg.close();
     if (errVueHandler(res, null, i18n)) {
-      apiCall(); /*ToDo*/
+      apiCall();
       ElMessage({
-        message: "Успешно восстановлено!",
+        message: i18n.t("notif.delete_img_cnt"),
         type: "success",
         center: true,
         duration: 1500,
         showClose: true,
       });
     }
-    // hideLoader();/*ToDo*/
   });
 };
 const handleSizeChange = (val: number) => {
@@ -91,11 +90,11 @@ const undeleteImage = (ids: number[], multiple = false) => {
     undeleteRequest(ids);
   } else {
     ElMessageBox({
-      title: "Внимание!",
-      message: `Вы уверены, что хотите восстановить изображения в количестве ${ids.length}?`,
+      title: i18n.t("notif.warning"),
+      message: i18n.t("notif.rollback_img_cnt"),
       showCancelButton: true,
-      confirmButtonText: "Да",
-      cancelButtonText: "Отменить",
+      confirmButtonText: i18n.t("ok"),
+      cancelButtonText: i18n.t("cancel"),
     }).then(() => undeleteRequest(ids));
   }
 };
@@ -139,7 +138,7 @@ const addTagInFilter = (tagId: number) => {
                 @click="showFilter = !showFilter"
                 type="primary"
                 icon="Filter"
-                >Фильтры
+                >{{ $t('d.filters') }}
                 {{
                   filterSettings.applyCnt > 0
                     ? `[${filterSettings.applyCnt}]`
@@ -149,7 +148,7 @@ const addTagInFilter = (tagId: number) => {
               <el-button type="warning" icon="Refresh" @click="clearFiltres" />
             </el-button-group>
             <el-button @click="apiCall" icon="Refresh"
-              >Обновить список</el-button
+              >{{$t('refresh')}}</el-button
             >
             <el-button-group class="ml-3" v-if="selected.size">
               <el-button-group class="ml-3" v-if="selected.size">
@@ -158,10 +157,10 @@ const addTagInFilter = (tagId: number) => {
                   icon="FolderAdd"
                   @click="undeleteImage(Array.from(selected), true)"
                 >
-                  Восстановить выбраные фото</el-button
+                  {{$t("d.rollback_selected")}}</el-button
                 >
                 <el-button @click="selected.clear()" icon="RefreshRight"
-                  >Сбросить выбор</el-button
+                  >{{ $t('d.refresh_selected') }}</el-button
                 >
               </el-button-group>
             </el-button-group>
@@ -208,14 +207,14 @@ const addTagInFilter = (tagId: number) => {
               <el-col :span="24" class="p-2">
                 <el-result icon="warning">
                   <template #title>
-                    <p>Упс... ничего не найдено.</p>
-                    <p>Попробуйте изменить фильтры.</p>
-                    <p>Может дата?</p>
+                    <p>{{$t('d.empty_result.0')}}</p>
+                    <p>{{$t('d.empty_result.1')}}</p>
+                    <p>{{$t('d.empty_result.2')}}</p>
                   </template>
                   <template #extra>
-                    <el-button type="primary" @click="showFilter = true"
-                      >Настроить фильтры</el-button
-                    >
+                    <el-button type="primary" @click="showFilter = true">
+                      {{$t('d.edit_filters')}}
+                    </el-button>
                   </template>
                 </el-result>
               </el-col>

@@ -66,29 +66,31 @@ const canDelete = computed(
 <template>
   <el-card>
     <template #header>
-      <h3>Список пользователей, загружавших фотографии</h3>
+      <h3>{{$t("users.title")}}</h3>
     </template>
     <div v-loading="initLoader">
       <el-row class="mb-2">
-        <el-col :span="24" :lg="12" class="font-bold">Имя</el-col>
-        <el-col :span="24" :lg="4" class="font-bold">Всего фотографий</el-col>
-        <el-col :span="24" :lg="6" class="font-bold">Действия</el-col>
+        <el-col :span="24" :lg="12" class="font-bold">{{ $t("users.table.name") }}</el-col>
+        <el-col :span="24" :lg="4" class="font-bold">{{ $t("users.table.count") }}</el-col>
+        <el-col :span="24" :lg="6" class="font-bold">{{ $t("users.table.actions") }}</el-col>
       </el-row>
       <el-row v-for="user in users" :key="user.id" class="mt-2">
         <el-col :span="24" :lg="12">{{ user.name }}</el-col>
         <el-col :span="24" :lg="4"
-          >{{ user.cnt_images }} (удалено {{ user.cnt_deleted }})</el-col
+          >{{ user.cnt_images }} ({{$t("users.deleted")}} {{ user.cnt_deleted }})</el-col
         >
         <el-col :span="24" :lg="6">
           <el-popconfirm
-            title="Точно хотите удалить фотографии автора?"
+            :title="$t('users.confirm_delete')"
             @confirm="startDelete(user)"
+            :cancel-button-text="$t('cancel')"
+            :confirm-button-text="$t('ok')"
           >
             <template #reference>
               <el-button
                 :disabled="initLoader || user.cnt_active === 0"
                 color="red"
-                v-tooltip.auto="'Удалить все фотографии'"
+                v-tooltip.auto="$t('users.delete_tip')"
               >
                 <el-icon>
                   <Delete />
@@ -110,19 +112,19 @@ const canDelete = computed(
     :show-close="false"
   >
     <div class="text-center">
-      <h2>Вы уверены, что хотите удалить все фотографии автора?</h2>
-      <h2>Фотографии будут перемещены в корзину!</h2>
-      <el-button color="blue" @click="confirm2Modal = false"
-        >Нет, передумал(а)</el-button
-      >
+      <h2>{{$t("users.dialog.title[0]")}}</h2>
+      <h2>{{$t("users.dialog.title[0]")}}</h2>
+      <el-button color="blue" @click="confirm2Modal = false">
+        {{$t("users.dialog.cancel")}}
+      </el-button>
       <el-button
         color="red"
         @click="
           confirm2Modal = false;
           confirm3Modal = true;
-        "
-        >Я осознаю все риски, связаные с этим действием</el-button
-      >
+        ">
+        {{$t("users.dialog.ok")}}
+      </el-button>
     </div>
   </el-dialog>
   <el-dialog
@@ -136,9 +138,7 @@ const canDelete = computed(
   >
     <div class="text-center">
       <h2>
-        Ведите количество фотографий, которое будет удалено ({{
-          userToDeleteImages.cnt_active
-        }}), в поле ниже:
+        {{$t("users.dialog.check.write",{count:userToDeleteImages.cnt_active})}}
       </h2>
       <el-input size="small" autofocus v-model="confirm3ModalValue" />
       <div class="mt-2">
@@ -147,12 +147,12 @@ const canDelete = computed(
           @click="
             confirm3Modal = false;
             confirm2Modal = false;
-          "
-          >Нет, передумал(а)</el-button
-        >
-        <el-button :disabled="!canDelete" color="red" @click="confirmDelete"
-          >Отправляем в корзину!</el-button
-        >
+          ">
+          {{$t("users.dialog.cancel")}}
+        </el-button>
+        <el-button :disabled="!canDelete" color="red" @click="confirmDelete">
+          {{$t("users.dialog.check.to_trash")}}
+        </el-button>
       </div>
     </div>
   </el-dialog>
