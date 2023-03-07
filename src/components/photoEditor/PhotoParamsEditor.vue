@@ -9,7 +9,9 @@ import {
   type ImageToUpload,
 } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
+import {useI18n} from "vue-i18n";
 const emit = defineEmits(["update:modelValue"]);
+const i18n = useI18n();
 const PhotobankStore = usePhotobankStore();
 const props = defineProps({
   modelValue: {
@@ -115,7 +117,7 @@ const tagsSearchAsync = (name: string, cb: (arg: any) => void) => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       cb(tags.value);
     }
   });
@@ -137,7 +139,7 @@ const authorsSearchAsync = (name: string, cb: (arg: any) => void) => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       cb(authors.value);
     }
   });
@@ -159,7 +161,7 @@ const sourcesSearchAsync = (name: string, cb: (arg: any) => void) => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       cb(sources.value);
     }
   });
@@ -209,7 +211,7 @@ const deleteTag = (tag: string | number) => {
     <el-col :span="24">
       <el-card>
         <el-space wrap>
-          Теги
+          {{$t("d.tags")}}
           <el-tag
             v-for="tag in modelValue.tags"
             :key="tag"
@@ -228,7 +230,7 @@ const deleteTag = (tag: string | number) => {
             :fetch-suggestions="tagsSearchAsync"
             clearable
             class="inline-input w-50"
-            placeholder="Введите тег"
+            :placeholder="$t('photo_editor.tag_add')"
             @select="setNewTag($event, modelValue)"
             @keyup.enter="setNewTag($event, modelValue)"
           />
@@ -244,7 +246,7 @@ const deleteTag = (tag: string | number) => {
             <el-row>
               <el-col :span="24">
                 <el-space wrap>
-                  Источник
+                  {{$t("d.source")}}
                   <el-tag
                     effect="dark"
                     round
@@ -261,10 +263,10 @@ const deleteTag = (tag: string | number) => {
                       {{
                         allSourcesById.hasOwnProperty(modelValue.source_id)
                           ? allSourcesById[modelValue.source_id]
-                          : "ошибка"
+                          : $t('error')
                       }}
                     </template>
-                    <template v-else> не выбран </template>
+                    <template v-else> {{$t("photo_editor.not_selected")}} </template>
                   </el-tag>
                 </el-space>
               </el-col>
@@ -278,7 +280,7 @@ const deleteTag = (tag: string | number) => {
                 :fetch-suggestions="sourcesSearchAsync"
                 clearable
                 class="inline-input w-50"
-                placeholder="Введите источник"
+                :placeholder="$t('photo_editor.write_source')"
                 @select="setNewSource($event, modelValue)"
                 @keyup.enter="setNewSource($event, modelValue)"
               />
@@ -291,7 +293,7 @@ const deleteTag = (tag: string | number) => {
             <el-row>
               <el-col :span="24">
                 <el-space wrap>
-                  Автор
+                  {{ $t("d.author") }}
                   <el-tag
                     effect="dark"
                     round
@@ -308,10 +310,10 @@ const deleteTag = (tag: string | number) => {
                       {{
                         allAuthorsById.hasOwnProperty(modelValue.author_id)
                           ? allAuthorsById[modelValue.author_id]
-                          : "ошибка"
+                          : $t('error')
                       }}
                     </template>
-                    <template v-else> не выбран </template>
+                    <template v-else> {{$t("photo_editor.not_selected")}} </template>
                   </el-tag>
                 </el-space>
               </el-col>
@@ -326,7 +328,7 @@ const deleteTag = (tag: string | number) => {
                   :fetch-suggestions="authorsSearchAsync"
                   clearable
                   class="inline-input w-50"
-                  placeholder="Введите автора"
+                  :placeholder="$t('photo_editor.write_author')"
                   @select="setNewAuthor($event, modelValue)"
                   @keyup.enter="setNewAuthor($event, modelValue)"
                 />
@@ -340,7 +342,7 @@ const deleteTag = (tag: string | number) => {
             <el-row>
               <el-checkbox
                 v-model="modelValue.del_checked"
-                label="Удалить через"
+                :label="$t('del_from.del')"
                 @change="changeDelCheck"
               />
             </el-row>
@@ -351,8 +353,8 @@ const deleteTag = (tag: string | number) => {
                 @change="changeDelTime"
                 size="small"
               >
-                <el-option label="Сутки" :value="86400" />
-                <el-option label="Месяц" :value="2592000" />
+                <el-option :label="$t('del_from.day')" :value="86400" />
+                <el-option :label="$t('del_from.month')" :value="2592000" />
               </el-select>
             </el-row>
           </el-col>
@@ -361,7 +363,7 @@ const deleteTag = (tag: string | number) => {
           </el-col>
           <el-col :lg="3" :md="11" :sm="24" :xs="24" style="align-self: center">
             <el-space wrap>
-              Тип
+              {{$t("d.type")}}
               <el-select
                 style="margin-left: 10px"
                 v-model="modelValue.type"
@@ -369,8 +371,8 @@ const deleteTag = (tag: string | number) => {
                 size="small"
                 @change="changeType"
               >
-                <el-option label="Фотография" :value="1" />
-                <el-option label="Иллюстрация" :value="2" />
+                <el-option :label="$t('d.type_photo')" :value="1" />
+                <el-option :label="$t('d.type_illus')" :value="2" />
               </el-select>
             </el-space>
           </el-col>
@@ -385,7 +387,7 @@ const deleteTag = (tag: string | number) => {
           v-model="modelValue.description"
           :rows="5"
           type="textarea"
-          placeholder="Описание"
+          :placeholder="$t('d.description')"
           @input="changeDescription"
         />
       </el-card>

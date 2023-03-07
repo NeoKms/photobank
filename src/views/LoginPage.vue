@@ -1,9 +1,12 @@
+
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { errVueHandler } from "@/plugins/errorResponser";
 import router from "@/router";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
+import {useI18n} from "vue-i18n";
+const i18n = useI18n();
 const UserStore = useUserStore();
 const initLoader = ref(false);
 const showLoader = () => (initLoader.value = true);
@@ -16,11 +19,11 @@ const form = ref({
 const sendLogin = () => {
   showLoader();
   UserStore.login(form.value).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       router.push("/");
     } else {
       ElMessage({
-        message: "Не верный логин/пароль",
+        message: i18n.t("errors.login"),
         type: "error",
         center: true,
         duration: 2000,
@@ -44,7 +47,7 @@ const rules = ref<FormRules>({
     {
       required: true,
       min: 1,
-      message: "Не должно быть пустым!",
+      message: i18n.t("errors.not_empty"),
       trigger: "blur",
     },
   ],
@@ -52,7 +55,7 @@ const rules = ref<FormRules>({
     {
       required: true,
       min: 1,
-      message: "Не должно быть пустым!",
+      message: i18n.t("errors.not_empty"),
       trigger: "blur",
     },
   ],
@@ -69,21 +72,22 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
+  <locale-switcher class="switcher" />
   <el-card class="box-card" v-loading="initLoader">
-    <template #header> Авторизация </template>
+    <template #header>{{$t('auth.title')}}</template>
     <el-form :model="form" ref="ruleFormRef" :rules="rules" status-icon>
       <el-form-item required prop="username">
-        <el-input v-model="form.username" placeholder="Введите логин" />
+        <el-input v-model="form.username" :placeholder="$t('auth.write_login')" />
       </el-form-item>
       <el-form-item required prop="password">
         <el-input
           v-model="form.password"
-          placeholder="Введите пароль"
+          :placeholder="$t('auth.write_pass')"
           type="password"
         />
       </el-form-item>
       <el-form-item class="justify-center">
-        <el-button @click="submitForm(ruleFormRef)"> Войти </el-button>
+        <el-button @click="submitForm(ruleFormRef)"> {{$t('auth.enter')}} </el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -99,5 +103,10 @@ onBeforeUnmount(() => {
   .box-card {
     width: 250px;
   }
+}
+.switcher {
+  position: absolute;
+  top: 20px;
+  right: 50px;
 }
 </style>

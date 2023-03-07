@@ -17,12 +17,14 @@ import {
 import { errVueHandler } from "@/plugins/errorResponser";
 import PhotoParamsEditor from "./PhotoParamsEditor.vue";
 import PhotoPreviewCollapse from "./PhotoPreviewCollapse.vue";
+import {useI18n} from "vue-i18n";
 const props = defineProps({
   externalDropImages: {
     type: FileList,
     default: () => [],
   },
 });
+const i18n = useI18n();
 interface CroppComponentInterface {
   getResult: () => CropperResult;
   setCoordinates: (transform: Transform | Transform[]) => void;
@@ -148,7 +150,7 @@ const imagesData = ref<ImageToUpload[]>([]);
 const sendImages = () => {
   if (imagesData.value.find((image) => !image.newSource && !image.source_id)) {
     return ElMessage({
-      message: "Не у всех изображений указан источник!",
+      message: i18n.t("notif.not_all_sources"),
       type: "error",
       center: true,
       duration: 2000,
@@ -156,16 +158,16 @@ const sendImages = () => {
   }
   showLoader();
   const message = ElMessage({
-    message: "Сохраняем Ваши прекрасные фотографии...",
+    message: i18n.t("notif.save_photo"),
     type: "info",
     center: true,
     duration: 0,
   });
   PhotobankStore.sendImages(imagesData.value).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       emit("success");
       ElMessage({
-        message: "Успешно сохранено",
+        message: i18n.t("notif.success_save"),
         type: "success",
         center: true,
         duration: 2000,
@@ -186,7 +188,7 @@ onMounted(() => {
       itemsPerPage: 5,
     },
   }).then((res) => {
-    if (errVueHandler(res, "Ошибка инициализации")) {
+    if (errVueHandler(res, i18n.t("errors.init"), i18n)) {
       hideLoader();
       if (props.externalDropImages.length) {
         changeFileInput(props.externalDropImages);
@@ -271,7 +273,7 @@ const stopAll = (e: Event) => {
 };
 const changeFileInput = (files: null | FileList = null) => {
   const message = ElMessage({
-    message: "Загружаем Ваши прекрасные изображения",
+    message: i18n.t("notif.upload"),
     type: "info",
     center: true,
     duration: 0,
@@ -288,7 +290,7 @@ const changeFileInput = (files: null | FileList = null) => {
         ) {
           if (img.type.indexOf("gif") !== -1) {
             ElMessage({
-              message: "GIF будут преобразованы в статическое изображение!",
+              message: i18n.t("notif.gif_to_static"),
               type: "warning",
               center: true,
               duration: 0,
@@ -298,7 +300,7 @@ const changeFileInput = (files: null | FileList = null) => {
           return true;
         } else if (img.type === "image/svg+xml") {
           ElMessage({
-            message: "SVG не поддерживается",
+            message: i18n.t("notif.not_supported_type",{type:"SVG"}),
             type: "warning",
             center: true,
             duration: 0,
@@ -306,7 +308,7 @@ const changeFileInput = (files: null | FileList = null) => {
           });
         } else {
           ElMessage({
-            message: `${img.type} не поддерживается`,
+            message: i18n.t("notif.not_supported_type",{type: img.type}),
             type: "warning",
             center: true,
             duration: 0,
@@ -514,10 +516,10 @@ watch(contrast, () => changeCanvasImage());
     <el-row class="card__header">
       <el-col>
         <el-steps :active="activeStep" finish-status="success" simple>
-          <el-step title="Загрузка изображений" icon="UploadFilled" />
-          <el-step title="Кадрирование" icon="Crop" />
-          <el-step title="Общие параметры" icon="Edit" />
-          <el-step title="Проверка" icon="Checked" />
+          <el-step :title="$t('photo_editor.steps.upload')" icon="UploadFilled" />
+          <el-step :title="$t('photo_editor.steps.crop')" icon="Crop" />
+          <el-step :title="$t('photo_editor.steps.params')" icon="Edit" />
+          <el-step :title="$t('photo_editor.steps.check')" icon="Checked" />
         </el-steps>
       </el-col>
     </el-row>
@@ -550,7 +552,7 @@ watch(contrast, () => changeCanvasImage());
           @dragenter="dropField.style.backgroundColor = 'grey'"
           @dragleave="dropField.style.backgroundColor = ''"
         >
-          <span>Кликните или перенесите сюда изображения (макс. 50)</span>
+          <span>{{$t("photo_editor.click_drop_info")}}</span>
         </div>
       </el-col>
     </el-row>
@@ -580,7 +582,7 @@ watch(contrast, () => changeCanvasImage());
                         <el-button
                           v-for="ratioObj in stencilAcceptRatios"
                           :key="ratioObj.ratio"
-                          v-tooltip.auto="'Формат рамки'"
+                          v-tooltip.auto="$t('photo_editor.frame_format')"
                           round
                           :class="{
                             active: cropperProps.aspectRatio === ratioObj.ratio,
@@ -596,14 +598,14 @@ watch(contrast, () => changeCanvasImage());
                     <el-row class="pb-0" justify="center">
                       <el-button-group>
                         <el-button
-                          v-tooltip.auto="'Повернуть вправо'"
+                          v-tooltip.auto="$t('photo_editor.rotate.right')"
                           style="width: 59.25px"
                           round
                           icon="RefreshRight"
                           @click="crop_rotate(90)"
                         />
                         <el-button
-                          v-tooltip.auto="'Отразить по вертикали'"
+                          v-tooltip.auto="$t('photo_editor.flip.vertical')"
                           style="width: 51.47px"
                           round
                           @click="crop_flip(true, false)"
@@ -611,7 +613,7 @@ watch(contrast, () => changeCanvasImage());
                           <el-image src="/flip-horizontal.c757c98c.svg" />
                         </el-button>
                         <el-button
-                          v-tooltip.auto="'Отразить по горизонтали'"
+                          v-tooltip.auto="$t('photo_editor.flip.horizontal')"
                           style="width: 51.47px"
                           round
                           @click="crop_flip(false, true)"
@@ -619,7 +621,7 @@ watch(contrast, () => changeCanvasImage());
                           <el-image src="/flip-vertical.0f1de4d1.svg" />
                         </el-button>
                         <el-button
-                          v-tooltip.auto="'Повернуть влево'"
+                          v-tooltip.auto="$t('photo_editor.rotate.right')"
                           style="width: 51.47px"
                           round
                           icon="RefreshLeft"
@@ -628,7 +630,7 @@ watch(contrast, () => changeCanvasImage());
                       </el-button-group>
                     </el-row>
                     <el-row class="pb-0" justify="center">
-                      Яркость
+                      {{$t('photo_editor.brightness')}}
                       <el-slider
                         class="slider-in-popover"
                         input-size="small"
@@ -641,7 +643,7 @@ watch(contrast, () => changeCanvasImage());
                       />
                     </el-row>
                     <el-row class="pb-0" justify="center">
-                      Насыщеность
+                      {{$t('photo_editor.saturation')}}
                       <el-slider
                         class="slider-in-popover"
                         input-size="small"
@@ -654,7 +656,7 @@ watch(contrast, () => changeCanvasImage());
                       />
                     </el-row>
                     <el-row class="pb-0" justify="center">
-                      Контрастность
+                      {{$t('photo_editor.contrast')}}
                       <el-slider
                         class="slider-in-popover"
                         input-size="small"
@@ -673,10 +675,10 @@ watch(contrast, () => changeCanvasImage());
                           round
                           icon="Select"
                           @click="acceptCropp"
-                          v-tooltip.auto="'Подтвердить'"
+                          v-tooltip.auto="$t('apply')"
                         />
                         <el-button
-                          v-tooltip.auto="'Отменить изменения'"
+                          v-tooltip.auto="$t('cancel_changed')"
                           type="warning"
                           round
                           icon="Refresh"
@@ -707,7 +709,7 @@ watch(contrast, () => changeCanvasImage());
                   v-for="(oneImg, ind) in imagesData"
                   :key="oneImg.key"
                   :ref="
-                    (el) => {
+                    (el: HTMLElement) => {
                       imagesListElementsRef[oneImg?.key || ''] = el;
                     }
                   "
@@ -724,7 +726,7 @@ watch(contrast, () => changeCanvasImage());
                       >{{ ind + 1 }}</el-button
                     >
                     <el-button
-                      v-tooltip.auto="'Удалить'"
+                      v-tooltip.auto="$t('delete')"
                       size="small"
                       class="delete-btn"
                       icon="Delete"
@@ -758,16 +760,16 @@ watch(contrast, () => changeCanvasImage());
         v-if="[1, 2, 3].includes(activeStep)"
         class="mb-2"
       >
-        <el-button type="success" @click="prev">Назад</el-button>
+        <el-button type="success" @click="prev">{{$t("back")}}</el-button>
       </el-col>
       <el-col :sm="2" :xs="24">
-        <el-button type="danger" @click="$emit('close')">Отмена</el-button>
+        <el-button type="danger" @click="$emit('close')">{{$t("cancel")}}</el-button>
       </el-col>
       <el-col :sm="2" :xs="24" v-if="[1, 2].includes(activeStep)" class="mt-2">
-        <el-button type="success" @click="next">Далее</el-button>
+        <el-button type="success" @click="next">{{$t("next")}}</el-button>
       </el-col>
       <el-col :sm="2" :xs="24" v-if="[3].includes(activeStep)" class="mt-2">
-        <el-button type="success" @click="sendImages">Сохранить</el-button>
+        <el-button type="success" @click="sendImages">{{$t("save")}}</el-button>
       </el-col>
     </el-row>
   </el-card>

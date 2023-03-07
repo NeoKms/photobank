@@ -4,6 +4,7 @@ import { errRequestHandler } from "@/plugins/errorResponser";
 import { useUserStore } from "./user";
 import { ElMessage } from "element-plus";
 import { envConfig } from "@/plugins/envConfig";
+import {useI18n} from "vue-i18n";
 
 export interface SimpleObject {
   [key: string]: any;
@@ -478,7 +479,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
     fetchAuthors(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -495,7 +496,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     fetchUsers(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -512,7 +513,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
     fetchTags(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -529,7 +530,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
     fetchImagesForEditor(ids: number[]): Promise<boolean> {
       const payload = {
@@ -559,7 +560,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
     fetchListMain(): Promise<boolean> {
       const raw = JSON.parse(JSON.stringify(this.getFilterSettingsRaw));
@@ -578,7 +579,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     fetchListTrash(): Promise<boolean> {
       const raw = JSON.parse(JSON.stringify(this.getFilterSettingsRaw));
@@ -599,7 +600,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     sendImagesUpd(payload: ImageToUpload[]): Promise<boolean> {
       const copyObj = JSON.parse(JSON.stringify(payload)) as ImageToBackend[];
@@ -631,7 +632,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     sendImages(payload: ImageToUpload[]): Promise<boolean> {
       const form = new FormData();
@@ -664,7 +665,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
     undeleteImage(ids: number[]): Promise<boolean> {
       return axiosClient
@@ -680,7 +681,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
     sendDeleteImages(ids: number[]): Promise<boolean> {
       return axiosClient
@@ -696,7 +697,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
     sendDeleteImagesByUserId(user_id: number): Promise<boolean> {
       return axiosClient
@@ -712,7 +713,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e));
+        .catch((e) => errRequestHandler(e,useI18n()));
     },
   },
 });

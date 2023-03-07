@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Folder, FolderDelete, Menu } from "@element-plus/icons-vue";
+import { Folder, FolderDelete } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import { computed, onMounted } from "vue";
@@ -17,7 +17,7 @@ defineProps({
 });
 ////
 const rights = computed(() => UserStore.getRights);
-const sleep = async (ms: any) => {
+const sleep = async (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 onMounted(async () => {
@@ -28,7 +28,7 @@ onMounted(async () => {
   }
   extLink1.addEventListener("click",()=>{
     window.location.href = "https://jrgreez.ru";
-  })
+  });
 });
 </script>
 <template>
@@ -43,37 +43,37 @@ onMounted(async () => {
       <el-icon>
         <Folder />
       </el-icon>
-      <template #title>Фотографии</template>
+      <template #title>{{$t("menu.photos")}}</template>
     </el-menu-item>
     <el-menu-item index="/trash" v-if="rights.mh_photobank_trash > 0">
       <el-icon>
         <FolderDelete />
       </el-icon>
-      <template #title>Корзина</template>
+      <template #title>{{$t("menu.trash")}}</template>
     </el-menu-item>
     <el-menu-item index="/watermark" v-if="rights.mh_photobank > 0">
       <el-icon>
         <MagicStick />
       </el-icon>
-      <template #title>Водяные знаки</template>
+      <template #title>{{$t("menu.wm")}}</template>
     </el-menu-item>
     <el-menu-item index="/users" v-if="rights.mh_photobank > 0">
       <el-icon>
         <User />
       </el-icon>
-      <template #title>Создатели</template>
+      <template #title>{{$t("menu.metric")}}</template>
     </el-menu-item>
     <el-menu-item index="/settings" v-if="rights.mh_photobank > 0">
       <el-icon>
         <Tools />
       </el-icon>
-      <template #title>Настройки</template>
+      <template #title>{{$t("menu.settings")}}</template>
     </el-menu-item>
     <el-menu-item id="external-1">
       <el-icon>
         <HomeFilled />
       </el-icon>
-      <template #title>Обратно на основной сайт</template>
+      <template #title>{{$t("menu.home")}}</template>
     </el-menu-item>
   </el-menu>
 </template>

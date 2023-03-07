@@ -6,7 +6,9 @@ import WatermarkCard from "../../components/watermark/WatermarkCard.vue";
 import { errVueHandler } from "@/plugins/errorResponser";
 import { ElMessage, ElMessageBox } from "element-plus/es";
 import { FolderAdd } from "@element-plus/icons-vue";
+import {useI18n} from "vue-i18n";
 
+const i18n = useI18n();
 const WatermarkStore = useWatermarkStore();
 const initLoader = ref(true);
 const showLoader = () => (initLoader.value = true);
@@ -16,7 +18,7 @@ const apiCall = () => {
   const timeStart = Date.now();
   showLoader();
   return WatermarkStore.fetchListMain().then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       setTimeout(
         () => hideLoader(),
         Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0
@@ -57,11 +59,11 @@ const delWatermark = (id: number, multiple = false) => {
     sendDelWatermarkRequest(id);
   } else {
     ElMessageBox({
-      title: "Внимание!",
-      message: `Вы уверены, что хотите удалить изображение?`,
+      title: i18n.t("notif.warning"),
+      message: i18n.t("watermark.delete_confirm"),
       showCancelButton: true,
-      confirmButtonText: "Да",
-      cancelButtonText: "Отменить",
+      confirmButtonText: i18n.t("ok"),
+      cancelButtonText: i18n.t("cancel"),
     }).then(() => sendDelWatermarkRequest(id));
   }
 };
@@ -69,16 +71,16 @@ const delWatermark = (id: number, multiple = false) => {
 const sendDelWatermarkRequest = (id: number) => {
   showLoader();
   const msg = ElMessage({
-    message: "Сдувам пыль с корзины...",
+    message: i18n.t("notif.delete_in_progress"),
     type: "warning",
     center: true,
     duration: 0,
   });
   return WatermarkStore.sendDeleteWatermark(id).then((res) => {
-    if (errVueHandler(res)) {
-      apiCall(); /*ToDo*/
+    if (errVueHandler(res, null, i18n)) {
+      apiCall();
       ElMessage({
-        message: "Успешно удалено!",
+        message: i18n.t("notif.success_delete"),
         type: "success",
         center: true,
         duration: 1500,
@@ -92,8 +94,8 @@ const sendDelWatermarkRequest = (id: number) => {
 </script>
 <template>
   <el-row class="pt-4 pb-4 sticky-row sticky-top" justify="center">
-    <el-button type="success" @click="uploaderModal = true" :icon="FolderAdd"
-      >Добавить изображение
+    <el-button type="success" @click="uploaderModal = true" :icon="FolderAdd">
+      {{$t("watermark.add_wm")}}
     </el-button>
   </el-row>
   <el-skeleton animated :loading="initLoader">
@@ -137,9 +139,9 @@ const sendDelWatermarkRequest = (id: number) => {
           <el-col :span="24" class="p-2">
             <el-result icon="warning">
               <template #title>
-                <p>Упс... ничего не найдено.</p>
-                <p>Попробуйте изменить фильтры.</p>
-                <p>Может дата?</p>
+                <p>{{$t('d.empty_result.0')}}</p>
+                <p>{{$t('d.empty_result.1')}}</p>
+                <p>{{$t('d.empty_result.2')}}</p>
               </template>
             </el-result>
           </el-col>
@@ -177,7 +179,7 @@ const sendDelWatermarkRequest = (id: number) => {
     <Uploader
       @close="
         uploaderModal = false;
-        apiCall(); /*ToDo*/
+        apiCall();
       "
     />
   </el-dialog>

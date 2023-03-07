@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { RouterView, useRouter, useRoute } from "vue-router";
+import { RouterView } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import Menu from "@/components/MenuAside.vue";
+import LocaleSwitcher from "@/components/locale/LocaleSwitcher.vue";
 const isCollapse = ref(true);
-const route = useRoute();
-const router = useRouter();
 const UserStore = useUserStore();
 const userInfo = computed(() => UserStore.getUser);
 const logout = () => UserStore.logout();
@@ -32,7 +31,7 @@ const loader = computed(() => UserStore.getLoader);
               </el-icon>
             </el-button>
             <el-image src="/favicon.png" class="ml-2 logo-image" />
-            <span class="logo-text">Фотобанк</span>
+            <span class="logo-text">{{$t("title")}}</span>
           </div>
           <div class="hidden-md-and-up menu-block-mobile">
             <Menu
@@ -41,7 +40,8 @@ const loader = computed(() => UserStore.getLoader);
               :is-horizontal="true"
             />
           </div>
-          <div>
+          <div style="display: flex;align-items: center;">
+            <div class="pl-2 pr-2"><locale-switcher /></div>
             <span class="hidden-xs-only">{{ userInfo?.fullname }}</span>
             <span class="hidden-md-and-up">{{
               userInfo?.fullname?.split(" ")[0]

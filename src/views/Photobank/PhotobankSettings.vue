@@ -13,7 +13,7 @@ watch(defaultStencilRatio, (val) => PhotobankStore.setDefaultStencilRatio(val));
   <el-row>
     <el-col :span="24" class="card-settings mt-2">
       <el-card class="card-settings__block">
-        <template #header> Настройки фотокарточки </template>
+        <template #header> {{$t('settings.title')}} </template>
         <CardSettrings />
       </el-card>
     </el-col>
@@ -21,9 +21,9 @@ watch(defaultStencilRatio, (val) => PhotobankStore.setDefaultStencilRatio(val));
   <el-row>
     <el-col :span="24" class="card-settings mt-2">
       <el-card class="card-settings__block">
-        <template #header> Соотношение трафарета по умолчанию </template>
+        <template #header>{{$t('settings.stencil')}}</template>
         <el-select v-model="defaultStencilRatio">
-          <el-option :label="'Автоматически'" :value="-1" />
+          <el-option :label="$t('settings.automatically')" :value="-1" />
           <el-option
             v-for="ratioObj in stencilAcceptRatios"
             :key="ratioObj.ratio"

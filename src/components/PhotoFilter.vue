@@ -2,7 +2,9 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { usePhotobankStore, type FilterSettings } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
+import {useI18n} from "vue-i18n";
 const PhotobankStore = usePhotobankStore();
+const i18n = useI18n();
 const emit = defineEmits(["apply"]);
 const initLoader = ref(true);
 const showLoader = () => (initLoader.value = true);
@@ -29,14 +31,14 @@ const acceptFilter = (): void => {
   setTimeout(() => hideLoader(), 200);
 };
 //types
-const types = [
-  { value: 1, name: "Фотография" },
-  { value: 2, name: "Иллюстрация" },
-];
+const types = computed(() => [
+  { value: 1, name: i18n.t("d.type_photo") },
+  { value: 2, name: i18n.t("d.type_illus") },
+]);
 //dates
-const shortcuts = [
+const shortcuts = computed(() => [
   {
-    text: "Сегодня",
+    text: i18n.t("calendar.today"),
     value: () => {
       const end = new Date();
       const start = new Date();
@@ -45,7 +47,7 @@ const shortcuts = [
     },
   },
   {
-    text: "За неделю",
+    text: i18n.t("calendar.weeks"),
     value: () => {
       const end = new Date();
       const start = new Date();
@@ -54,7 +56,7 @@ const shortcuts = [
     },
   },
   {
-    text: "За месяц",
+    text: i18n.t("calendar.months"),
     value: () => {
       const end = new Date();
       const start = new Date();
@@ -62,7 +64,7 @@ const shortcuts = [
       return [start, end];
     },
   },
-];
+]);
 //autocompletes
 const astr = ref("");
 const sstr = ref("");
@@ -96,7 +98,7 @@ const fetchTags = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });
@@ -115,7 +117,7 @@ const fetchUsers = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });
@@ -134,7 +136,7 @@ const fetchSources = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });
@@ -153,7 +155,7 @@ const fetchAtuhors = () => {
       sortDesc: [false],
     },
   }).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       selectLoading.value = false;
     }
   });
@@ -194,7 +196,7 @@ const blureTimeout = (val: string) =>
       <el-col :lg="2">
         <el-input
           v-model="filterSettings.data.id"
-          placeholder="Номер"
+          :placeholder="$t('d.number')"
           type="number"
           :max="4294967295"
         />
@@ -206,7 +208,7 @@ const blureTimeout = (val: string) =>
           @blur="blureTimeout(tstr)"
           @keyup.delete="tstr = $event.target.value"
           @input="tstr = $event.target.value"
-          placeholder="Теги"
+          :placeholder="$t('d.tags')"
           remote
           v-model="filterSettings.data.tags"
           collapse-tags
@@ -229,9 +231,9 @@ const blureTimeout = (val: string) =>
           v-model="filterSettings.data.dates"
           type="daterange"
           unlink-panels
-          range-separator="До"
-          start-placeholder="Дата создания"
-          end-placeholder="Дата создания"
+          :range-separator="$t('calendar.to')"
+          :start-placeholder="$t('calendar.created_date')"
+          :end-placeholder="$t('calendar.created_date')"
           :shortcuts="shortcuts"
           format="DD-MM-YYYY"
         />
@@ -243,7 +245,7 @@ const blureTimeout = (val: string) =>
           @blur="blureTimeout(sstr)"
           @keyup.delete="sstr = $event.target.value"
           @input="sstr = $event.target.value"
-          placeholder="Источники"
+          :placeholder="$t('d.sources')"
           remote
           v-model="filterSettings.data.sources"
           collapse-tags
@@ -266,7 +268,7 @@ const blureTimeout = (val: string) =>
           @blur="blureTimeout(sstr)"
           @keyup.delete="sstr = $event.target.value"
           @input="sstr = $event.target.value"
-          placeholder="Исключить источники"
+          :placeholder="$t('d.without_sources')"
           remote
           v-model="filterSettings.data.wthoutSources"
           collapse-tags
@@ -289,7 +291,7 @@ const blureTimeout = (val: string) =>
           @blur="blureTimeout(astr)"
           @keyup.delete="astr = $event.target.value"
           @input="astr = $event.target.value"
-          placeholder="Авторы"
+          :placeholder="$t('d.authors')"
           remote
           v-model="filterSettings.data.authors"
           collapse-tags
@@ -312,7 +314,7 @@ const blureTimeout = (val: string) =>
           @blur="blureTimeout(ustr)"
           @keyup.delete="ustr = $event.target.value"
           @input="ustr = $event.target.value"
-          placeholder="Создатель"
+          :placeholder="$t('d.creators')"
           remote
           v-model="filterSettings.data.users"
           collapse-tags
@@ -335,7 +337,7 @@ const blureTimeout = (val: string) =>
           collapse-tags-tooltip
           v-model="filterSettings.data.types"
           multiple
-          placeholder="Тип"
+          :placeholder="$t('d.type')"
         >
           <el-option
             v-for="item in types"
@@ -350,7 +352,7 @@ const blureTimeout = (val: string) =>
       <el-col :span="24">
         <el-button-group>
           <el-button class="m-1" type="success" @click="acceptFilter"
-            >Применить (enter)</el-button
+            >{{ $t('accept') }}</el-button
           >
         </el-button-group>
       </el-col>

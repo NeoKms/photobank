@@ -7,6 +7,8 @@ import type { Image } from "@/stores/photobank";
 import PhotoPreviewCollapse from "./PhotoPreviewCollapse.vue";
 import { Check, Close } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
+import {useI18n} from "vue-i18n";
+const i18n = useI18n();
 const PhotobankStore = usePhotobankStore();
 const props = defineProps({
   ids: {
@@ -80,9 +82,9 @@ const fetchProps = (images: ImageToUpload[]) => {
   return Promise.allSettled(promises).then((res) => {
     res.map((el) => {
       if (el.status === "fulfilled") {
-        errVueHandler(el.value);
+        errVueHandler(el.value, null, i18n);
       } else {
-        errVueHandler(el.reason, el.reason);
+        errVueHandler(el.reason, el.reason, i18n);
       }
       hideLoader();
     });
@@ -91,7 +93,7 @@ const fetchProps = (images: ImageToUpload[]) => {
 const dataset = computed(() => PhotobankStore.listToEdit);
 onMounted(() => {
   PhotobankStore.fetchImagesForEditor(props.ids).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       fetchProps(dataset.value);
     }
   });
@@ -100,16 +102,16 @@ const multiEditStage = ref(true);
 const sendImages = () => {
   showLoader();
   const message = ElMessage({
-    message: "Сохраняем Ваши прекрасные фотографии...",
+    message: i18n.t("notif.save_photo"),
     type: "info",
     center: true,
     duration: 0,
   });
   PhotobankStore.sendImagesUpd(dataset.value).then((res) => {
-    if (errVueHandler(res)) {
+    if (errVueHandler(res, null, i18n)) {
       emit("close");
       ElMessage({
-        message: "Успешно сохранено",
+        message: i18n.t("notif.success_save"),
         type: "success",
         center: true,
         duration: 2000,
@@ -125,10 +127,10 @@ const sendImages = () => {
     <el-row class="card__header">
       <el-col :span="24">
         <el-space wrap>
-          Редактирование фотографий
+          {{$t("photo_editor.edit")}}
           <el-divider direction="vertical" />
           <div v-if="dataset.length > 1">
-            Мультиредактирование
+            {{$t("photo_editor.multi")}}
             <el-switch
               v-model="multiEditStage"
               inline-prompt
@@ -150,10 +152,10 @@ const sendImages = () => {
     </el-row>
     <el-row justify="space-evenly" class="card__footer">
       <el-col :span="2">
-        <el-button type="danger" @click="$emit('close')">Отмена</el-button>
+        <el-button type="danger" @click="$emit('close')">{{$t("cancel")}}</el-button>
       </el-col>
       <el-col :span="2">
-        <el-button type="success" @click="sendImages">Сохранить</el-button>
+        <el-button type="success" @click="sendImages">{{$t("save")}}</el-button>
       </el-col>
     </el-row>
   </el-card>
