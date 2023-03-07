@@ -6,7 +6,7 @@ export default createI18n({
   locale: "en",
   fallbackLocale: "en",
   messages: {
-    en: ruMes,
-    ru: enMes,
+    en: enMes,
+    ru: ruMes,
   },
 })
