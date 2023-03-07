@@ -10,27 +10,27 @@ watch(cardSettings, () => PhotobankStore.setCardSettings(), { deep: true });
     <el-col :span="24" :lg="12" :md="12" :sm="12" class="button-list">
       <el-row :gutter="5">
         <el-col :span="24">
-          Автор
+          {{$t("d.author")}}
           <el-switch v-model="cardSettings.author" />
         </el-col>
         <el-col :span="24">
-          Источник
+          {{$t("d.source")}}
           <el-switch v-model="cardSettings.source" />
         </el-col>
         <el-col :span="24">
-          Теги
+          {{$t("d.tags")}}
           <el-switch v-model="cardSettings.tags" />
         </el-col>
         <el-col :span="24">
-          Создатель
+          {{$t("d.creator")}}
           <el-switch v-model="cardSettings.creator" />
         </el-col>
         <el-col :span="24">
-          Дата создания
+          {{$t("calendar.created_date")}}
           <el-switch v-model="cardSettings.date" />
         </el-col>
         <el-col :span="24">
-          Полная дата
+          {{$t("calendar.full_date")}}
           <el-switch v-model="cardSettings.date_full" />
         </el-col>
       </el-row>

@@ -120,7 +120,8 @@
     "weeks": "During the week",
     "months": "During the month",
     "to": "to",
-    "created_date": "Date of creation"
+    "created_date": "Date of creation",
+    "full_date": "Full date"
   },
   "auth": {
     "title": "Authorization",
