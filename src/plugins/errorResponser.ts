@@ -2,7 +2,7 @@ import { ElMessage } from "element-plus";
 import router from "@/router";
 import {envConfig} from "@/plugins/envConfig";
 
-export const errVueHandler = (res: number | boolean | string, errText = null, i18n: any) => {
+export const errVueHandler = (res: number | boolean | string, errText: string | null, i18n: any) => {
   if (res === true) {
     return true;
   }

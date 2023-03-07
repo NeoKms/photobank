@@ -709,7 +709,7 @@ watch(contrast, () => changeCanvasImage());
                   v-for="(oneImg, ind) in imagesData"
                   :key="oneImg.key"
                   :ref="
-                    (el) => {
+                    (el: HTMLElement) => {
                       imagesListElementsRef[oneImg?.key || ''] = el;
                     }
                   "
