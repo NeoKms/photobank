@@ -15,19 +15,14 @@ import "floating-vue/dist/style.css";
 import "element-plus/theme-chalk/display.css";
 import "./assets/b-spacing.css";
 import RuLocale from "element-plus/es/locale/lang/ru";
-import EnLocale from "element-plus/es/locale/lang/en";
 import i18n from "@/plugins/i18n";
 
 const app = createApp(App);
 
 app.use(i18n);
 app.directive("tooltip", VTooltip);
-const locale = localStorage.getItem('i18n-locale') ?? "ru";
 app.use(ElementPlus, {
-  locale: {
-    ru: RuLocale,
-    en: EnLocale,
-  }[locale],
+  locale: RuLocale,
 });
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 app.use(createPinia());
