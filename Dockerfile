@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install git -y
 WORKDIR /var/
 
 COPY . /var/
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
