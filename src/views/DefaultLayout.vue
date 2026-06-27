@@ -57,7 +57,10 @@ const loader = computed(() => UserStore.getLoader);
         </el-container>
       </el-header>
       <el-container>
-        <el-aside class="hidden-sm-and-down">
+        <el-aside
+          class="hidden-sm-and-down app-aside"
+          :class="{ 'app-aside--expanded': !isCollapse }"
+        >
           <Menu :is-collapse="isCollapse" />
         </el-aside>
         <el-container>

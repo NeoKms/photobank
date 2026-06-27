@@ -27,6 +27,24 @@
     background: var(--el-color-primary-light-8) !important;
 }
 
+.app-aside {
+    width: 64px !important;
+    overflow: hidden;
+    transition: width 0.18s ease;
+}
+
+.app-aside--expanded {
+    width: 214px !important;
+}
+
+.app-aside .left-menu.el-menu--collapse {
+    width: 64px;
+}
+
+.app-aside .left-menu:not(.el-menu--collapse):not(.el-menu--horizontal) {
+    width: 214px;
+}
+
 .el-menu {
     border-right: none !important;
 }
