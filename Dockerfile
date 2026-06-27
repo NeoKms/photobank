@@ -1,6 +1,5 @@
-FROM node:16.14 as build-stage
+FROM --platform=linux/amd64 node:24-alpine AS build-stage
 
-RUN apt-get update && apt-get install git -y
 WORKDIR /var/
 
 COPY . /var/
