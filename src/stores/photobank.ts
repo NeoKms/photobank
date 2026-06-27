@@ -4,7 +4,7 @@ import { errRequestHandler } from "@/plugins/errorResponser";
 import { useUserStore } from "./user";
 import { ElMessage } from "element-plus";
 import { envConfig } from "@/plugins/envConfig";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 export interface SimpleObject {
   [key: string]: any;
@@ -159,20 +159,18 @@ function getImageFullPath(src: string): string {
 }
 function getCntFilter(filter: FilterSettings): number {
   let cnt = 0;
-  filter.data.authors.length > 0 && cnt++;
-  filter.data.dates.length > 0 && cnt++;
-  filter.data.sources.length > 0 && cnt++;
-  filter.data.tags.length > 0 && cnt++;
-  filter.data.types.length > 0 && cnt++;
-  filter.data.users.length > 0 && cnt++;
-  filter.data.id || (-1 > 0 && cnt++);
-  filter.data.search.length > 0 && cnt++;
-  filter.data.wthoutSources.length > 0 && cnt++;
-  !!filter.data.id && cnt++;
+  if (filter.data.authors.length > 0) cnt++;
+  if (filter.data.dates.length > 0) cnt++;
+  if (filter.data.sources.length > 0) cnt++;
+  if (filter.data.tags.length > 0) cnt++;
+  if (filter.data.types.length > 0) cnt++;
+  if (filter.data.users.length > 0) cnt++;
+  if (filter.data.search.length > 0) cnt++;
+  if (filter.data.wthoutSources.length > 0) cnt++;
+  if (filter.data.id) cnt++;
   return cnt;
 }
-export const usePhotobankStore = defineStore({
-  id: "photobank",
+export const usePhotobankStore = defineStore("photobank", {
   state: (): State => ({
     tags: [],
     all_tags: [],
@@ -257,7 +255,7 @@ export const usePhotobankStore = defineStore({
       if (!valueLocal) {
         localStorage.setItem(
           `settings_ratio_${userInfo?.id}`,
-          JSON.stringify(state.default_stencil_ratio)
+          JSON.stringify(state.default_stencil_ratio),
         );
       } else {
         state.default_stencil_ratio = JSON.parse(valueLocal);
@@ -269,12 +267,12 @@ export const usePhotobankStore = defineStore({
     getCardSettrings: (state): PhotoCardSettings => {
       const userInfo = useUserStore().getUser;
       const settingsLocal = localStorage.getItem(
-        `photo_card_settings_${state.card_settings.version}_${userInfo?.id}`
+        `photo_card_settings_${state.card_settings.version}_${userInfo?.id}`,
       );
       if (!settingsLocal) {
         localStorage.setItem(
           `photo_card_settings_${state.filterSettings.version}_${userInfo?.id}`,
-          JSON.stringify(state.card_settings)
+          JSON.stringify(state.card_settings),
         );
       } else {
         state.card_settings = JSON.parse(settingsLocal) as PhotoCardSettings;
@@ -284,12 +282,12 @@ export const usePhotobankStore = defineStore({
     getFilterSettings: (state): FilterSettings => {
       const userInfo = useUserStore().getUser;
       const filterLocal = localStorage.getItem(
-        `filter_settings_${state.filterSettings.version}_${userInfo?.id}_pb`
+        `filter_settings_${state.filterSettings.version}_${userInfo?.id}_pb`,
       );
       if (!filterLocal) {
         localStorage.setItem(
           `filter_settings_${state.filterSettings.version}_${userInfo?.id}_pb`,
-          JSON.stringify(state.filterSettings)
+          JSON.stringify(state.filterSettings),
         );
       } else {
         state.filterSettings = JSON.parse(filterLocal) as FilterSettings;
@@ -328,11 +326,11 @@ export const usePhotobankStore = defineStore({
       }
       if (state.filterSettings.data.dates.length === 2) {
         copy.filter[">=created_at"] = Math.round(
-          new Date(state.filterSettings.data.dates[0]).getTime() / 1000
+          new Date(state.filterSettings.data.dates[0]).getTime() / 1000,
         );
         copy.filter["<created_at"] =
           Math.round(
-            new Date(state.filterSettings.data.dates[1]).getTime() / 1000
+            new Date(state.filterSettings.data.dates[1]).getTime() / 1000,
           ) + 86400;
       }
       return copy;
@@ -388,14 +386,14 @@ export const usePhotobankStore = defineStore({
       const userInfo = useUserStore().getUser;
       localStorage.setItem(
         `settings_ratio_${userInfo?.id}`,
-        JSON.stringify(val)
+        JSON.stringify(val),
       );
     },
     setCardSettings(): void {
       const userInfo = useUserStore().getUser;
       localStorage.setItem(
         `photo_card_settings_${this.card_settings.version}_${userInfo?.id}`,
-        JSON.stringify(this.card_settings)
+        JSON.stringify(this.card_settings),
       );
     },
     setFilterSettings(filter: FilterSettings, inLC = false): void {
@@ -406,13 +404,12 @@ export const usePhotobankStore = defineStore({
         ElMessage({
           message: "Фильтр сохранен",
           type: "success",
-          center: true,
           duration: 1500,
           showClose: true,
         });
         localStorage.setItem(
           `filter_settings_${this.filterSettings.version}_${userInfo?.id}_pb`,
-          JSON.stringify(this.filterSettings)
+          JSON.stringify(this.filterSettings),
         );
       }
     },
@@ -429,7 +426,7 @@ export const usePhotobankStore = defineStore({
         img.preview = getImageFullPath(img.preview);
         Object.keys(img.paths).forEach(
           (pathName) =>
-            (img.paths[pathName] = getImageFullPath(img.paths[pathName]))
+            (img.paths[pathName] = getImageFullPath(img.paths[pathName])),
         );
       });
       this.filterSettings.options.allCount = payload.allCount;
@@ -439,28 +436,28 @@ export const usePhotobankStore = defineStore({
     setUsers(items: User[]): void {
       const ids = this.all_users.map((el) => el.id);
       this.all_users = this.all_users.concat(
-        items.filter((item) => !ids.includes(item.id)) || []
+        items.filter((item) => !ids.includes(item.id)) || [],
       );
       this.users = items || [];
     },
     setTags(items: Tag[]): void {
       const ids = this.all_tags.map((el) => el.id);
       this.all_tags = this.all_tags.concat(
-        items.filter((item) => !ids.includes(item.id)) || []
+        items.filter((item) => !ids.includes(item.id)) || [],
       );
       this.tags = items || [];
     },
     setAuthors(items: Author[]): void {
       const ids = this.all_users.map((el) => el.id);
       this.all_authors = this.all_authors.concat(
-        items.filter((item) => !ids.includes(item.id)) || []
+        items.filter((item) => !ids.includes(item.id)) || [],
       );
       this.authors = items || [];
     },
     setSources(items: Source[]): void {
       const ids = this.all_sources.map((el) => el.id);
       this.all_sources = this.all_sources.concat(
-        items.filter((item) => !ids.includes(item.id)) || []
+        items.filter((item) => !ids.includes(item.id)) || [],
       );
       this.sources = items || [];
     },
@@ -479,7 +476,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     fetchAuthors(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -513,7 +510,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     fetchTags(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -530,7 +527,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     fetchImagesForEditor(ids: number[]): Promise<boolean> {
       const payload = {
@@ -560,7 +557,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     fetchListMain(): Promise<boolean> {
       const raw = JSON.parse(JSON.stringify(this.getFilterSettingsRaw));
@@ -665,7 +662,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     undeleteImage(ids: number[]): Promise<boolean> {
       return axiosClient
@@ -681,7 +678,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     sendDeleteImages(ids: number[]): Promise<boolean> {
       return axiosClient
@@ -697,7 +694,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     sendDeleteImagesByUserId(user_id: number): Promise<boolean> {
       return axiosClient
@@ -713,7 +710,7 @@ export const usePhotobankStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
   },
 });

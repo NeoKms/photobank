@@ -9,7 +9,7 @@ import {
   type ImageToUpload,
 } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const emit = defineEmits(["update:modelValue"]);
 const i18n = useI18n();
 const PhotobankStore = usePhotobankStore();
@@ -211,7 +211,7 @@ const deleteTag = (tag: string | number) => {
     <el-col :span="24">
       <el-card>
         <el-space wrap>
-          {{$t("d.tags")}}
+          {{ $t("d.tags") }}
           <el-tag
             v-for="tag in modelValue.tags"
             :key="tag"
@@ -246,7 +246,7 @@ const deleteTag = (tag: string | number) => {
             <el-row>
               <el-col :span="24">
                 <el-space wrap>
-                  {{$t("d.source")}}
+                  {{ $t("d.source") }}
                   <el-tag
                     effect="dark"
                     round
@@ -263,10 +263,12 @@ const deleteTag = (tag: string | number) => {
                       {{
                         allSourcesById.hasOwnProperty(modelValue.source_id)
                           ? allSourcesById[modelValue.source_id]
-                          : $t('error')
+                          : $t("error")
                       }}
                     </template>
-                    <template v-else> {{$t("photo_editor.not_selected")}} </template>
+                    <template v-else>
+                      {{ $t("photo_editor.not_selected") }}
+                    </template>
                   </el-tag>
                 </el-space>
               </el-col>
@@ -310,10 +312,12 @@ const deleteTag = (tag: string | number) => {
                       {{
                         allAuthorsById.hasOwnProperty(modelValue.author_id)
                           ? allAuthorsById[modelValue.author_id]
-                          : $t('error')
+                          : $t("error")
                       }}
                     </template>
-                    <template v-else> {{$t("photo_editor.not_selected")}} </template>
+                    <template v-else>
+                      {{ $t("photo_editor.not_selected") }}
+                    </template>
                   </el-tag>
                 </el-space>
               </el-col>
@@ -363,7 +367,7 @@ const deleteTag = (tag: string | number) => {
           </el-col>
           <el-col :lg="3" :md="11" :sm="24" :xs="24" style="align-self: center">
             <el-space wrap>
-              {{$t("d.type")}}
+              {{ $t("d.type") }}
               <el-select
                 style="margin-left: 10px"
                 v-model="modelValue.type"

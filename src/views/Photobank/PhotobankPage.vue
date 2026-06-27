@@ -7,7 +7,7 @@ import MultiEditor from "@/components/photoEditor/MultiEditor.vue";
 import PhotoFilter from "@/components/PhotoFilter.vue";
 import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
 import PhotoCard from "../../components/PhotoCard.vue";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const i18n = useI18n();
 const PhotobankStore = usePhotobankStore();
 const initLoader = ref(true);
@@ -23,7 +23,7 @@ const apiCall = () => {
     if (errVueHandler(res, null, i18n)) {
       setTimeout(
         () => hideLoader(),
-        Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0
+        Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0,
       );
     }
   });
@@ -78,7 +78,6 @@ const sendDelPhotoRequest = (ids: number[]) => {
   const msg = ElMessage({
     message: i18n.t("notif.delete_in_progress"),
     type: "warning",
-    center: true,
     duration: 0,
   });
   return PhotobankStore.sendDeleteImages(ids).then((res) => {
@@ -87,7 +86,6 @@ const sendDelPhotoRequest = (ids: number[]) => {
       ElMessage({
         message: i18n.t("notif.success_delete"),
         type: "success",
-        center: true,
         duration: 1500,
         showClose: true,
       });
@@ -101,7 +99,7 @@ const delPhoto = (ids: number[], multiple = false) => {
   } else {
     ElMessageBox({
       title: i18n.t("notif.warning"),
-      message: i18n.t("notif.delete_img_cnt",{count:ids.length}),
+      message: i18n.t("notif.delete_img_cnt", { count: ids.length }),
       showCancelButton: true,
       confirmButtonText: i18n.t("ok"),
       cancelButtonText: i18n.t("cancel"),
@@ -114,7 +112,7 @@ const clearFiltres = () => {
 };
 const addTagInFilter = (tagId: number) => {
   const copy = JSON.parse(
-    JSON.stringify(filterSettings.value)
+    JSON.stringify(filterSettings.value),
   ) as FilterSettings;
   if (!copy.data.tags.includes(tagId)) {
     copy.data.tags.push(tagId);
@@ -180,7 +178,7 @@ const dragLeave = () => {
                 @click="showFilter = !showFilter"
                 type="primary"
                 icon="Filter"
-                >{{ $t('d.filters') }}
+                >{{ $t("d.filters") }}
                 {{
                   filterSettings.applyCnt > 0
                     ? `[${filterSettings.applyCnt}]`
@@ -189,30 +187,33 @@ const dragLeave = () => {
               >
               <el-button type="warning" icon="Refresh" @click="clearFiltres" />
             </el-button-group>
-            <el-button @click="apiCall" icon="Refresh"
-              >{{$t('refresh')}}</el-button
-            >
+            <el-button @click="apiCall" icon="Refresh">{{
+              $t("refresh")
+            }}</el-button>
             <el-button
               type="success"
               @click="uploaderModal = true"
               icon="FolderAdd"
-              >{{$t('d.add_photo')}}</el-button
+              >{{ $t("d.add_photo") }}</el-button
             >
             <el-button-group class="ml-3" v-if="selected.size">
-              <el-button @click="editorModal = true" type="primary" icon="Edit"
-                >{{$t('d.edit_selected_photo')}}</el-button
+              <el-button
+                @click="editorModal = true"
+                type="primary"
+                icon="Edit"
+                >{{ $t("d.edit_selected_photo") }}</el-button
               >
               <el-button
                 type="danger"
                 @click="delPhoto(Array.from(selected), true)"
                 icon="Delete"
-                >{{$t('d.delete_selected_photo')}}
+                >{{ $t("d.delete_selected_photo") }}
               </el-button>
               <el-button
                 @click="selected.clear()"
                 type="warning"
                 icon="RefreshRight"
-                >{{ $t('d.refresh_selected') }}</el-button
+                >{{ $t("d.refresh_selected") }}</el-button
               >
             </el-button-group>
           </el-col>
@@ -269,13 +270,13 @@ const dragLeave = () => {
               <el-col :span="24" class="p-2">
                 <el-result icon="warning">
                   <template #title>
-                    <p>{{$t('d.empty_result.0')}}</p>
-                    <p>{{$t('d.empty_result.1')}}</p>
-                    <p>{{$t('d.empty_result.2')}}</p>
+                    <p>{{ $t("d.empty_result.0") }}</p>
+                    <p>{{ $t("d.empty_result.1") }}</p>
+                    <p>{{ $t("d.empty_result.2") }}</p>
                   </template>
                   <template #extra>
                     <el-button type="primary" @click="showFilter = true">
-                      {{$t('d.edit_filters')}}
+                      {{ $t("d.edit_filters") }}
                     </el-button>
                   </template>
                 </el-result>

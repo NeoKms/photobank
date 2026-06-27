@@ -4,7 +4,7 @@ import { usePhotobankStore } from "@/stores/photobank";
 import { computed, watch, ref } from "vue";
 const PhotobankStore = usePhotobankStore();
 const stencilAcceptRatios = computed(
-  () => PhotobankStore.getStencilAcceptRatios
+  () => PhotobankStore.getStencilAcceptRatios,
 );
 const defaultStencilRatio = ref(PhotobankStore.getDefaultStencilRatio);
 watch(defaultStencilRatio, (val) => PhotobankStore.setDefaultStencilRatio(val));
@@ -13,7 +13,7 @@ watch(defaultStencilRatio, (val) => PhotobankStore.setDefaultStencilRatio(val));
   <el-row>
     <el-col :span="24" class="card-settings mt-2">
       <el-card class="card-settings__block">
-        <template #header> {{$t('settings.title')}} </template>
+        <template #header> {{ $t("settings.title") }} </template>
         <CardSettrings />
       </el-card>
     </el-col>
@@ -21,7 +21,7 @@ watch(defaultStencilRatio, (val) => PhotobankStore.setDefaultStencilRatio(val));
   <el-row>
     <el-col :span="24" class="card-settings mt-2">
       <el-card class="card-settings__block">
-        <template #header>{{$t('settings.stencil')}}</template>
+        <template #header>{{ $t("settings.stencil") }}</template>
         <el-select v-model="defaultStencilRatio">
           <el-option :label="$t('settings.automatically')" :value="-1" />
           <el-option

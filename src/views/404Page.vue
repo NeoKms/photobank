@@ -110,7 +110,7 @@ html
       -webkit-background-clip: text
       -webkit-text-fill-color: transparent
       background-size: 400%
-      text-shadow: 1px 1px 2px transparentize(#fff, .75)
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, .25)
       animation: animateTextBackground 10s ease-in-out infinite
 
     + p
@@ -129,7 +129,7 @@ html
         left: 0
         right: 0
         color: transparent
-        text-shadow: 1px 1px 2px transparentize(#fff, .5)
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, .5)
         -webkit-background-clip: text
         -moz-background-clip: text
         background-clip: text

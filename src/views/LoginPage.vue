@@ -1,11 +1,10 @@
-
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { errVueHandler } from "@/plugins/errorResponser";
 import router from "@/router";
 import { ElMessage, type FormInstance, type FormRules } from "element-plus";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const i18n = useI18n();
 const UserStore = useUserStore();
 const initLoader = ref(false);
@@ -25,7 +24,6 @@ const sendLogin = () => {
       ElMessage({
         message: i18n.t("errors.login"),
         type: "error",
-        center: true,
         duration: 2000,
         showClose: true,
       });
@@ -74,10 +72,13 @@ onBeforeUnmount(() => {
 <template>
   <locale-switcher class="switcher" />
   <el-card class="box-card" v-loading="initLoader">
-    <template #header>{{$t('auth.title')}}</template>
+    <template #header>{{ $t("auth.title") }}</template>
     <el-form :model="form" ref="ruleFormRef" :rules="rules" status-icon>
       <el-form-item required prop="username">
-        <el-input v-model="form.username" :placeholder="$t('auth.write_login')" />
+        <el-input
+          v-model="form.username"
+          :placeholder="$t('auth.write_login')"
+        />
       </el-form-item>
       <el-form-item required prop="password">
         <el-input
@@ -87,7 +88,9 @@ onBeforeUnmount(() => {
         />
       </el-form-item>
       <el-form-item class="justify-center">
-        <el-button @click="submitForm(ruleFormRef)"> {{$t('auth.enter')}} </el-button>
+        <el-button @click="submitForm(ruleFormRef)">
+          {{ $t("auth.enter") }}
+        </el-button>
       </el-form-item>
     </el-form>
   </el-card>

@@ -69,12 +69,12 @@ export const formatDateJS = (t: number, m: string, lang = "ru") => {
   m = m.replace("YYYY", d.getUTCFullYear().toString());
   m = m.replace(
     "YY",
-    (d.getUTCFullYear() % 100 > 9 ? "" : "0") + (d.getUTCFullYear() % 100)
+    (d.getUTCFullYear() % 100 > 9 ? "" : "0") + (d.getUTCFullYear() % 100),
   );
   m = m.replace("MMMM", mmmm[lang][d.getUTCMonth()]);
   m = m.replace(
     "MM",
-    (d.getUTCMonth() + 1 > 9 ? "" : "0") + (d.getUTCMonth() + 1)
+    (d.getUTCMonth() + 1 > 9 ? "" : "0") + (d.getUTCMonth() + 1),
   );
   m = m.replace("DD", (d.getUTCDate() > 9 ? "" : "0") + d.getUTCDate());
   m = m.replace("hh", (d.getUTCHours() > 9 ? "" : "0") + d.getUTCHours());
@@ -88,27 +88,27 @@ export const getUnixTime = (date: string, form: string) => {
   let format: number | string = form ? form : "YYYY-MM-DD hh:mm:ss";
   let Y: number | string = date.substring(
     format.indexOf("Y"),
-    format.lastIndexOf("Y") + 1
+    format.lastIndexOf("Y") + 1,
   );
   let M: number | string = date.substring(
     format.indexOf("M"),
-    format.lastIndexOf("M") + 1
+    format.lastIndexOf("M") + 1,
   );
   let D: number | string = date.substring(
     format.indexOf("D"),
-    format.lastIndexOf("D") + 1
+    format.lastIndexOf("D") + 1,
   );
   let h: number | string = date.substring(
     format.indexOf("h"),
-    format.lastIndexOf("h") + 1
+    format.lastIndexOf("h") + 1,
   );
   let m: number | string = date.substring(
     format.indexOf("m"),
-    format.lastIndexOf("m") + 1
+    format.lastIndexOf("m") + 1,
   );
   let s: number | string = date.substring(
     format.indexOf("s"),
-    format.lastIndexOf("s") + 1
+    format.lastIndexOf("s") + 1,
   );
   if (Y.length < 4) {
     Y = "200".substring(0, 4 - Y.length) + "" + Y;

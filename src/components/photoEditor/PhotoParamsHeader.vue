@@ -55,11 +55,17 @@ const clickDel = () => {
       <el-row justify="center">
         <el-space wrap>
           <el-tag effect="dark" round type="warning">
-            {{ image.type === 1 ? $t('d.type_photo') : $t('d.type_illus') }}</el-tag
+            {{
+              image.type === 1 ? $t("d.type_photo") : $t("d.type_illus")
+            }}</el-tag
           >
           <el-tag type="danger" v-if="image.del_checked" effect="dark" round
-            >{{$t('del_from.del')}}
-            {{ image.del_after === 86400 ? $t('del_from.day'):$t('del_from.month') }}</el-tag
+            >{{ $t("del_from.del") }}
+            {{
+              image.del_after === 86400
+                ? $t("del_from.day")
+                : $t("del_from.month")
+            }}</el-tag
           >
         </el-space>
       </el-row>
@@ -94,7 +100,7 @@ const clickDel = () => {
                   : $t("error")
               }}
             </template>
-            <template v-else> {{$t('photo_editor.not_selected')}} </template>
+            <template v-else> {{ $t("photo_editor.not_selected") }} </template>
           </el-space>
         </el-col>
       </el-row>
@@ -111,10 +117,10 @@ const clickDel = () => {
               {{
                 allSourcesById.hasOwnProperty(image.source_id)
                   ? allSourcesById[image.source_id]
-                  : $t('error')
+                  : $t("error")
               }}
             </template>
-            <template v-else> {{$t('photo_editor.not_selected')}} </template>
+            <template v-else> {{ $t("photo_editor.not_selected") }} </template>
           </el-space>
         </el-col>
       </el-row>

@@ -4,7 +4,7 @@ import { usePhotobankStore, type FilterSettings } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
 import PhotoFilter from "@/components/PhotoFilter.vue";
 import { ElMessage, ElNotification, ElMessageBox } from "element-plus";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const PhotobankStore = usePhotobankStore();
 const i18n = useI18n();
 const initLoader = ref(true);
@@ -20,7 +20,7 @@ const apiCall = () => {
     if (errVueHandler(res, null, i18n)) {
       setTimeout(
         () => hideLoader(),
-        Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0
+        Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0,
       );
     }
   });
@@ -57,9 +57,8 @@ const clickOnCard = (image: { id: number }) => {
 };
 const undeleteRequest = (ids: number[]) => {
   const msg = ElMessage({
-    message: i18n.t('d.rollback_photo'),
+    message: i18n.t("d.rollback_photo"),
     type: "warning",
-    center: true,
     duration: 0,
   });
   showLoader();
@@ -70,7 +69,6 @@ const undeleteRequest = (ids: number[]) => {
       ElMessage({
         message: i18n.t("notif.delete_img_cnt"),
         type: "success",
-        center: true,
         duration: 1500,
         showClose: true,
       });
@@ -104,7 +102,7 @@ const clearFiltres = () => {
 };
 const addTagInFilter = (tagId: number) => {
   const copy = JSON.parse(
-    JSON.stringify(filterSettings.value)
+    JSON.stringify(filterSettings.value),
   ) as FilterSettings;
   if (!copy.data.tags.includes(tagId)) {
     copy.data.tags.push(tagId);
@@ -138,7 +136,7 @@ const addTagInFilter = (tagId: number) => {
                 @click="showFilter = !showFilter"
                 type="primary"
                 icon="Filter"
-                >{{ $t('d.filters') }}
+                >{{ $t("d.filters") }}
                 {{
                   filterSettings.applyCnt > 0
                     ? `[${filterSettings.applyCnt}]`
@@ -147,9 +145,9 @@ const addTagInFilter = (tagId: number) => {
               >
               <el-button type="warning" icon="Refresh" @click="clearFiltres" />
             </el-button-group>
-            <el-button @click="apiCall" icon="Refresh"
-              >{{$t('refresh')}}</el-button
-            >
+            <el-button @click="apiCall" icon="Refresh">{{
+              $t("refresh")
+            }}</el-button>
             <el-button-group class="ml-3" v-if="selected.size">
               <el-button-group class="ml-3" v-if="selected.size">
                 <el-button
@@ -157,11 +155,11 @@ const addTagInFilter = (tagId: number) => {
                   icon="FolderAdd"
                   @click="undeleteImage(Array.from(selected), true)"
                 >
-                  {{$t("d.rollback_selected")}}</el-button
+                  {{ $t("d.rollback_selected") }}</el-button
                 >
-                <el-button @click="selected.clear()" icon="RefreshRight"
-                  >{{ $t('d.refresh_selected') }}</el-button
-                >
+                <el-button @click="selected.clear()" icon="RefreshRight">{{
+                  $t("d.refresh_selected")
+                }}</el-button>
               </el-button-group>
             </el-button-group>
           </el-col>
@@ -207,13 +205,13 @@ const addTagInFilter = (tagId: number) => {
               <el-col :span="24" class="p-2">
                 <el-result icon="warning">
                   <template #title>
-                    <p>{{$t('d.empty_result.0')}}</p>
-                    <p>{{$t('d.empty_result.1')}}</p>
-                    <p>{{$t('d.empty_result.2')}}</p>
+                    <p>{{ $t("d.empty_result.0") }}</p>
+                    <p>{{ $t("d.empty_result.1") }}</p>
+                    <p>{{ $t("d.empty_result.2") }}</p>
                   </template>
                   <template #extra>
                     <el-button type="primary" @click="showFilter = true">
-                      {{$t('d.edit_filters')}}
+                      {{ $t("d.edit_filters") }}
                     </el-button>
                   </template>
                 </el-result>

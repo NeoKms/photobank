@@ -2,7 +2,7 @@
   <el-card class="uploader-card">
     <el-row class="card__header">
       <el-col>
-        <h1 class="center">{{$t("watermarks.upload")}}</h1>
+        <h1 class="center">{{ $t("watermarks.upload") }}</h1>
       </el-col>
     </el-row>
 
@@ -11,14 +11,14 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <span>{{$t('watermark.logo')}}</span>
+        <span>{{ $t("watermark.logo") }}</span>
         <el-switch
           v-model="type"
           active-color="#42ab27"
           inactive-color="#808080"
         >
         </el-switch>
-        <span>{{$t('watermark.fill')}}</span>
+        <span>{{ $t("watermark.fill") }}</span>
       </el-col>
     </el-row>
     <el-row>
@@ -58,7 +58,7 @@
           </el-icon>
           <div class="el-upload__text">
             <span class="el-upload__text2">
-              {{$t('watermark.click_or_upload')}}
+              {{ $t("watermark.click_or_upload") }}
             </span>
           </div>
         </el-upload>
@@ -71,11 +71,13 @@
     >
       <el-col :sm="2" :xs="24">
         <el-button type="success" :disabled="!name" @click="sendImage">
-          {{$t('save')}}
+          {{ $t("save") }}
         </el-button>
       </el-col>
       <el-col :sm="2" :xs="24">
-        <el-button type="danger" @click="$emit('close')">{{ $t('cancel') }}</el-button>
+        <el-button type="danger" @click="$emit('close')">{{
+          $t("cancel")
+        }}</el-button>
       </el-col>
     </el-row>
   </el-card>
@@ -86,7 +88,7 @@ import { ref } from "vue";
 import { useWatermarkStore, type Watermark } from "@/stores/watermark";
 import { ElMessage } from "element-plus";
 import { errVueHandler } from "@/plugins/errorResponser";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 const WatermarkStore = useWatermarkStore();
 const i18n = useI18n();
@@ -108,9 +110,8 @@ const sendImage = async () => {
   if (img.type.indexOf("image/") !== -1 && img.type.indexOf("svg") === -1) {
     if (img.type.indexOf("gif") !== -1) {
       ElMessage({
-        message: i18n.t("notif.not_supported_type",{type:"GIF"}),
+        message: i18n.t("notif.not_supported_type", { type: "GIF" }),
         type: "warning",
-        center: true,
         duration: 0,
         showClose: true,
       });
@@ -118,18 +119,16 @@ const sendImage = async () => {
     }
   } else if (img.type === "image/svg+xml") {
     ElMessage({
-      message: i18n.t("notif.not_supported_type",{type:"SVG"}),
+      message: i18n.t("notif.not_supported_type", { type: "SVG" }),
       type: "warning",
-      center: true,
       duration: 0,
       showClose: true,
     });
     return false;
   } else {
     ElMessage({
-      message: i18n.t("notif.not_supported_type",{type:img.type}),
+      message: i18n.t("notif.not_supported_type", { type: img.type }),
       type: "warning",
-      center: true,
       duration: 0,
       showClose: true,
     });
@@ -144,7 +143,6 @@ const sendImage = async () => {
   const message = ElMessage({
     message: i18n.t("watermark.save"),
     type: "info",
-    center: true,
     duration: 0,
   });
   WatermarkStore.sendImage(imageData.value as Watermark).then((res) => {
@@ -153,7 +151,6 @@ const sendImage = async () => {
       ElMessage({
         message: i18n.t("notif.success_save"),
         type: "success",
-        center: true,
         duration: 2000,
       });
     }

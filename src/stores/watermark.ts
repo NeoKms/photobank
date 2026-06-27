@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { axiosClient } from "@/plugins/axios";
 import { errRequestHandler } from "@/plugins/errorResponser";
 import { envConfig } from "@/plugins/envConfig";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 interface Watermark {
   blob: Blob;
@@ -48,8 +48,7 @@ interface ImagesListWithPagination extends PaginationBack {
 
 export type { OptionsSettings, Watermark };
 
-export const useWatermarkStore = defineStore({
-  id: "watermark",
+export const useWatermarkStore = defineStore("watermark", {
   state: (): State => ({
     imageList: [],
     optionsSettings: {
@@ -91,7 +90,7 @@ export const useWatermarkStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     setImageList(payload: ImagesListWithPagination): void {
       this.imageList = payload.data || [];
@@ -118,7 +117,7 @@ export const useWatermarkStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
     sendImage(payload: Watermark): Promise<boolean> {
       const form = new FormData();
@@ -138,7 +137,7 @@ export const useWatermarkStore = defineStore({
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e,useI18n()));
+        .catch((e) => errRequestHandler(e, useI18n()));
     },
   },
 });

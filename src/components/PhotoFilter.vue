@@ -2,7 +2,7 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { usePhotobankStore, type FilterSettings } from "@/stores/photobank";
 import { errVueHandler } from "@/plugins/errorResponser";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const PhotobankStore = usePhotobankStore();
 const i18n = useI18n();
 const emit = defineEmits(["apply"]);
@@ -182,7 +182,7 @@ onBeforeUnmount(() => {
 });
 const blureTimeout = (val: string) =>
   setTimeout(() => {
-    val = "";
+    void val;
   }, 200);
 </script>
 <template>
@@ -351,9 +351,9 @@ const blureTimeout = (val: string) =>
     <el-row class="mt-3" justify="center">
       <el-col :span="24">
         <el-button-group>
-          <el-button class="m-1" type="success" @click="acceptFilter"
-            >{{ $t('accept') }}</el-button
-          >
+          <el-button class="m-1" type="success" @click="acceptFilter">{{
+            $t("accept")
+          }}</el-button>
         </el-button-group>
       </el-col>
     </el-row>

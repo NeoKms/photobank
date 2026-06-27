@@ -92,7 +92,7 @@ router.beforeEach((to, from, next) => {
 function chechRights(
   userStore: any,
   rightsObj: rightsObj,
-  next: NavigationGuardNext
+  next: NavigationGuardNext,
 ) {
   const rights = userStore.getRights;
   let access = true;

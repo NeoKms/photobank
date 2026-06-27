@@ -1,8 +1,12 @@
 import { ElMessage } from "element-plus";
 import router from "@/router";
-import {envConfig} from "@/plugins/envConfig";
+import { envConfig } from "@/plugins/envConfig";
 
-export const errVueHandler = (res: number | boolean | string, errText: string | null, i18n: any) => {
+export const errVueHandler = (
+  res: number | boolean | string,
+  errText: string | null,
+  i18n: any,
+) => {
   if (res === true) {
     return true;
   }
@@ -12,7 +16,6 @@ export const errVueHandler = (res: number | boolean | string, errText: string | 
     ElMessage({
       message: i18n.t("errors.no_rights"),
       type: "error",
-      center: true,
       duration: 0,
       showClose: true,
     });
@@ -20,9 +23,11 @@ export const errVueHandler = (res: number | boolean | string, errText: string | 
     ElMessage({
       message: errText
         ? errText
-        : (res === "" || res === false ? i18n.t('errors.unknown_error') : res).toString(),
+        : (res === "" || res === false
+            ? i18n.t("errors.unknown_error")
+            : res
+          ).toString(),
       type: "error",
-      center: true,
       duration: 0,
       showClose: true,
     });
@@ -40,9 +45,7 @@ export const errRequestHandler = (err: any, i18n: any) => {
         err.response?.data?.error ||
         err.response?.data?.message ||
         err.response?.data?.errors ||
-        (err.response?.status === 404
-          ? ""
-          : i18n.t("errors.unknown_error"));
+        (err.response?.status === 404 ? "" : i18n.t("errors.unknown_error"));
       if (Array.isArray(text)) {
         text = text?.map((el) => el.message).join("\n");
       }

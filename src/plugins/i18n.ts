@@ -1,4 +1,4 @@
-import { createI18n } from 'vue-i18n';
+import { createI18n } from "vue-i18n";
 import ruMes from "@/locales/ru.json";
 import enMes from "@/locales/en.json";
 export default createI18n({
@@ -9,4 +9,4 @@ export default createI18n({
     en: enMes,
     ru: ruMes,
   },
-})
+});

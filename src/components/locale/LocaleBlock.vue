@@ -4,7 +4,7 @@
       {{ locale.code.toUpperCase() }}
     </el-col>
     <el-col :span="11" class="pl-2">
-      <el-image :src="`/${locale.code}.png`" style="width: 18px;" />
+      <el-image :src="`/${locale.code}.png`" style="width: 18px" />
     </el-col>
   </el-row>
 </template>
@@ -15,10 +15,10 @@ defineProps({
     type: Object,
     default: () => {
       return {
-        code: 'ru'
-      }
-    }
-  }
+        code: "ru",
+      };
+    },
+  },
 });
 </script>
 

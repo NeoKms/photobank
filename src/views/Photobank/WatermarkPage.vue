@@ -6,7 +6,7 @@ import WatermarkCard from "../../components/watermark/WatermarkCard.vue";
 import { errVueHandler } from "@/plugins/errorResponser";
 import { ElMessage, ElMessageBox } from "element-plus/es";
 import { FolderAdd } from "@element-plus/icons-vue";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
 const i18n = useI18n();
 const WatermarkStore = useWatermarkStore();
@@ -21,7 +21,7 @@ const apiCall = () => {
     if (errVueHandler(res, null, i18n)) {
       setTimeout(
         () => hideLoader(),
-        Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0
+        Date.now() - timeStart < 300 ? 300 - (Date.now() - timeStart) : 0,
       );
     }
   });
@@ -73,7 +73,6 @@ const sendDelWatermarkRequest = (id: number) => {
   const msg = ElMessage({
     message: i18n.t("notif.delete_in_progress"),
     type: "warning",
-    center: true,
     duration: 0,
   });
   return WatermarkStore.sendDeleteWatermark(id).then((res) => {
@@ -82,7 +81,6 @@ const sendDelWatermarkRequest = (id: number) => {
       ElMessage({
         message: i18n.t("notif.success_delete"),
         type: "success",
-        center: true,
         duration: 1500,
         showClose: true,
       });
@@ -95,7 +93,7 @@ const sendDelWatermarkRequest = (id: number) => {
 <template>
   <el-row class="pt-4 pb-4 sticky-row sticky-top" justify="center">
     <el-button type="success" @click="uploaderModal = true" :icon="FolderAdd">
-      {{$t("watermark.add_wm")}}
+      {{ $t("watermark.add_wm") }}
     </el-button>
   </el-row>
   <el-skeleton animated :loading="initLoader">
@@ -139,9 +137,9 @@ const sendDelWatermarkRequest = (id: number) => {
           <el-col :span="24" class="p-2">
             <el-result icon="warning">
               <template #title>
-                <p>{{$t('d.empty_result.0')}}</p>
-                <p>{{$t('d.empty_result.1')}}</p>
-                <p>{{$t('d.empty_result.2')}}</p>
+                <p>{{ $t("d.empty_result.0") }}</p>
+                <p>{{ $t("d.empty_result.1") }}</p>
+                <p>{{ $t("d.empty_result.2") }}</p>
               </template>
             </el-result>
           </el-col>

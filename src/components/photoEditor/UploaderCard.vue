@@ -17,7 +17,7 @@ import {
 import { errVueHandler } from "@/plugins/errorResponser";
 import PhotoParamsEditor from "./PhotoParamsEditor.vue";
 import PhotoPreviewCollapse from "./PhotoPreviewCollapse.vue";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 const props = defineProps({
   externalDropImages: {
     type: FileList,
@@ -46,13 +46,13 @@ const stencilAcceptRatiosByTitle = computed(() =>
   PhotobankStore.getStencilAcceptRatios.reduce((a, r) => {
     a[r.title] = r.ratio;
     return a;
-  }, {} as SimpleObject)
+  }, {} as SimpleObject),
 );
 const defaultStencilRatio = computed(
-  () => PhotobankStore.getDefaultStencilRatio
+  () => PhotobankStore.getDefaultStencilRatio,
 );
 const stencilAcceptRatios = computed(
-  () => PhotobankStore.getStencilAcceptRatios
+  () => PhotobankStore.getStencilAcceptRatios,
 );
 // cropp
 const britness = ref(0);
@@ -129,11 +129,6 @@ const reloadCropper = () => {
 const setProportion = () => {
   try {
     if (currentProportion.value) {
-      const comarr = stencilAcceptRatios.value.map((r) =>
-        Math.abs(currentProportion.value - r.ratio)
-      );
-      const min = Math.min(...comarr);
-      const minInd = comarr.findIndex((el) => el === min);
       console.log("cropperProps.value.aspectRatio", cropperProps.value);
       if (cropperProps?.value?.aspectRatio) {
         // cropperProps.value.aspectRatio = stencilAcceptRatios.value[minInd].ratio;
@@ -152,7 +147,6 @@ const sendImages = () => {
     return ElMessage({
       message: i18n.t("notif.not_all_sources"),
       type: "error",
-      center: true,
       duration: 2000,
     });
   }
@@ -160,7 +154,6 @@ const sendImages = () => {
   const message = ElMessage({
     message: i18n.t("notif.save_photo"),
     type: "info",
-    center: true,
     duration: 0,
   });
   PhotobankStore.sendImages(imagesData.value).then((res) => {
@@ -169,7 +162,6 @@ const sendImages = () => {
       ElMessage({
         message: i18n.t("notif.success_save"),
         type: "success",
-        center: true,
         duration: 2000,
       });
     }
@@ -240,8 +232,8 @@ const blobWithPromise = async (canvas: HTMLCanvasElement): Promise<Blob> => {
   return new Promise((resolve, reject) =>
     canvas.toBlob(
       (blob) => (blob ? resolve(blob) : reject(false)),
-      currentImageData.value.mime
-    )
+      currentImageData.value.mime,
+    ),
   );
 };
 const acceptCropp = async () => {
@@ -275,13 +267,12 @@ const changeFileInput = (files: null | FileList = null) => {
   const message = ElMessage({
     message: i18n.t("notif.upload"),
     type: "info",
-    center: true,
     duration: 0,
   });
   showLoader();
   setTimeout(() => {
     imagesData.value = Array.from<{ name: string; data: Blob } & Blob>(
-      files || imagesInputRef.value.files || []
+      files || imagesInputRef.value.files || [],
     )
       .filter((img) => {
         if (
@@ -292,7 +283,6 @@ const changeFileInput = (files: null | FileList = null) => {
             ElMessage({
               message: i18n.t("notif.gif_to_static"),
               type: "warning",
-              center: true,
               duration: 0,
               showClose: true,
             });
@@ -300,17 +290,15 @@ const changeFileInput = (files: null | FileList = null) => {
           return true;
         } else if (img.type === "image/svg+xml") {
           ElMessage({
-            message: i18n.t("notif.not_supported_type",{type:"SVG"}),
+            message: i18n.t("notif.not_supported_type", { type: "SVG" }),
             type: "warning",
-            center: true,
             duration: 0,
             showClose: true,
           });
         } else {
           ElMessage({
-            message: i18n.t("notif.not_supported_type",{type: img.type}),
+            message: i18n.t("notif.not_supported_type", { type: img.type }),
             type: "warning",
-            center: true,
             duration: 0,
             showClose: true,
           });
@@ -330,7 +318,7 @@ const changeFileInput = (files: null | FileList = null) => {
     imagesData.value.slice(0, 50);
     if (imagesData.value.length) {
       currentImageIndex.value = imagesData.value.findIndex(
-        (img) => !img.is_gif
+        (img) => !img.is_gif,
       );
       next();
       setTimeout(() => crop_maximize(), 500);
@@ -356,14 +344,16 @@ const next = () => {
     if (activeStep.value === 2 || skip) {
       const copyDefault = JSON.parse(JSON.stringify(defaultFields.value));
       copyDefault.tags = new Set(
-        JSON.parse(JSON.stringify(Array.from(defaultFields.value.tags || [])))
+        JSON.parse(JSON.stringify(Array.from(defaultFields.value.tags || []))),
       );
       imagesData.value.forEach((image) => {
         const copyDefault = JSON.parse(JSON.stringify(defaultFields.value));
         copyDefault.tags = new Set(Array.from(defaultFields.value.tags || []));
         Object.assign(image, copyDefault);
       });
-      skip && activeStep.value++;
+      if (skip) {
+        activeStep.value++;
+      }
     }
     activeStep.value++;
     hideLoader();
@@ -381,7 +371,9 @@ const prev = () => {
     } else {
       activeStep.value--;
     }
-    skip && activeStep.value--;
+    if (skip) {
+      activeStep.value--;
+    }
     hideLoader();
   }, 200);
 };
@@ -475,19 +467,25 @@ const changeCanvasImage = async () => {
           0,
           0,
           image.naturalWidth,
-          image.naturalHeight
+          image.naturalHeight,
         );
         const src = new Uint32Array(imageFromCanvas.data.buffer);
         const outImg = context.createImageData(
           image.naturalWidth,
-          image.naturalHeight
+          image.naturalHeight,
         );
         const dst = new Uint32Array(outImg.data.buffer);
-        britness.value !== 100 && changeBritnessInCanvas(dst, src);
+        if (britness.value !== 100) {
+          changeBritnessInCanvas(dst, src);
+        }
         // context.putImageData(outImg, 0, 0);
-        saturation.value !== 100 && changeSaturationsInCanvas(dst, dst);
+        if (saturation.value !== 100) {
+          changeSaturationsInCanvas(dst, dst);
+        }
         // context.putImageData(outImg, 0, 0);
-        contrast.value !== 100 && changeContrastInCanvas(dst, dst);
+        if (contrast.value !== 100) {
+          changeContrastInCanvas(dst, dst);
+        }
         context.putImageData(outImg, 0, 0);
         /////////
         croppComponent.value.imageAttributes.src = canvas.toDataURL();
@@ -516,7 +514,10 @@ watch(contrast, () => changeCanvasImage());
     <el-row class="card__header">
       <el-col>
         <el-steps :active="activeStep" finish-status="success" simple>
-          <el-step :title="$t('photo_editor.steps.upload')" icon="UploadFilled" />
+          <el-step
+            :title="$t('photo_editor.steps.upload')"
+            icon="UploadFilled"
+          />
           <el-step :title="$t('photo_editor.steps.crop')" icon="Crop" />
           <el-step :title="$t('photo_editor.steps.params')" icon="Edit" />
           <el-step :title="$t('photo_editor.steps.check')" icon="Checked" />
@@ -552,7 +553,7 @@ watch(contrast, () => changeCanvasImage());
           @dragenter="dropField.style.backgroundColor = 'grey'"
           @dragleave="dropField.style.backgroundColor = ''"
         >
-          <span>{{$t("photo_editor.click_drop_info")}}</span>
+          <span>{{ $t("photo_editor.click_drop_info") }}</span>
         </div>
       </el-col>
     </el-row>
@@ -630,7 +631,7 @@ watch(contrast, () => changeCanvasImage());
                       </el-button-group>
                     </el-row>
                     <el-row class="pb-0" justify="center">
-                      {{$t('photo_editor.brightness')}}
+                      {{ $t("photo_editor.brightness") }}
                       <el-slider
                         class="slider-in-popover"
                         input-size="small"
@@ -643,7 +644,7 @@ watch(contrast, () => changeCanvasImage());
                       />
                     </el-row>
                     <el-row class="pb-0" justify="center">
-                      {{$t('photo_editor.saturation')}}
+                      {{ $t("photo_editor.saturation") }}
                       <el-slider
                         class="slider-in-popover"
                         input-size="small"
@@ -656,7 +657,7 @@ watch(contrast, () => changeCanvasImage());
                       />
                     </el-row>
                     <el-row class="pb-0" justify="center">
-                      {{$t('photo_editor.contrast')}}
+                      {{ $t("photo_editor.contrast") }}
                       <el-slider
                         class="slider-in-popover"
                         input-size="small"
@@ -760,16 +761,20 @@ watch(contrast, () => changeCanvasImage());
         v-if="[1, 2, 3].includes(activeStep)"
         class="mb-2"
       >
-        <el-button type="success" @click="prev">{{$t("back")}}</el-button>
+        <el-button type="success" @click="prev">{{ $t("back") }}</el-button>
       </el-col>
       <el-col :sm="2" :xs="24">
-        <el-button type="danger" @click="$emit('close')">{{$t("cancel")}}</el-button>
+        <el-button type="danger" @click="$emit('close')">{{
+          $t("cancel")
+        }}</el-button>
       </el-col>
       <el-col :sm="2" :xs="24" v-if="[1, 2].includes(activeStep)" class="mt-2">
-        <el-button type="success" @click="next">{{$t("next")}}</el-button>
+        <el-button type="success" @click="next">{{ $t("next") }}</el-button>
       </el-col>
       <el-col :sm="2" :xs="24" v-if="[3].includes(activeStep)" class="mt-2">
-        <el-button type="success" @click="sendImages">{{$t("save")}}</el-button>
+        <el-button type="success" @click="sendImages">{{
+          $t("save")
+        }}</el-button>
       </el-col>
     </el-row>
   </el-card>
@@ -855,7 +860,7 @@ watch(contrast, () => changeCanvasImage());
   margin-bottom: 10px;
 }
 
-.preview-block:nth-last-child {
+.preview-block:last-child {
   margin-bottom: 0;
 }
 

@@ -2,9 +2,7 @@
 import { ref, computed } from "vue";
 import { formatDateJS } from "@/plugins/dates";
 import { usePhotobankStore } from "@/stores/photobank";
-import {useI18n} from "vue-i18n";
 const PhotobankStore = usePhotobankStore();
-const i18n = useI18n();
 const props = defineProps({
   cardData: {
     type: Object,
@@ -16,10 +14,7 @@ const props = defineProps({
       source_name: "Источник источников",
       created_at: 1657185050,
       creator: "Сергеев Сергей Сергеевич",
-      used: [
-        "Сергеев Сергей Сергеевич",
-        "Антонов Антон Антонович",
-      ],
+      used: ["Сергеев Сергей Сергеевич", "Антонов Антон Антонович"],
       preview: "",
       type_name: "фото",
       tags_names: [
@@ -82,19 +77,19 @@ const oneClick = () => {
   }
 };
 const dateFormat = (t: number, m: string) => formatDateJS(t, m);
-const clickTimer = ref<any>(null);
+const clickTimer = ref<ReturnType<typeof setTimeout> | null>(null);
 const touchStart = () => {
   if (clickTimer.value == null) {
     clickTimer.value = setTimeout(() => (clickTimer.value = null), 500);
   } else {
-    clearTimeout(clickTimer);
+    clearTimeout(clickTimer.value);
     clickTimer.value = null;
     selectCard();
   }
 };
 const addTagInFilter = (tagStr: string) => {
   const index = props.cardData.tags_names.findIndex(
-    (tag: string) => tag === tagStr
+    (tag: string) => tag === tagStr,
   );
   if (index >= 0) {
     emit("addTagInFilter", props.cardData.tags[index]);
@@ -208,7 +203,7 @@ const addTagInFilter = (tagStr: string) => {
       <span class="date" v-if="cardSettings.date">{{
         dateFormat(
           cardData.created_at,
-          cardSettings.date_full ? "DD.MM.YYYY hh:mm" : "DD.MM.YYYY"
+          cardSettings.date_full ? "DD.MM.YYYY hh:mm" : "DD.MM.YYYY",
         )
       }}</span>
     </div>

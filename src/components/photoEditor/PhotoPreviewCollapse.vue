@@ -29,7 +29,7 @@ onMounted(() => {
 });
 const delEvent = (image: ImageToUpload) => {
   const indToDel = props.modelValue.findIndex(
-    (i) => i.initial_url === image.initial_url
+    (i) => i.initial_url === image.initial_url,
   );
   if (indToDel >= 0) {
     props.modelValue.splice(indToDel, 1);
