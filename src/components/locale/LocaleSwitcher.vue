@@ -1,21 +1,27 @@
 <template>
   <div class="text-center">
-    <el-popover placement="right" :width="150" trigger="hover">
+    <el-popover
+      placement="right"
+      width="auto"
+      trigger="hover"
+      popper-class="locale-switcher-popper"
+      :popper-style="{ width: 'auto', minWidth: '0', padding: '6px' }"
+    >
       <template #reference>
-        <el-button>
+        <el-button class="locale-switcher__button">
           <locale-block :locale="{ code: $i18n.locale }" />
         </el-button>
       </template>
-      <div class="last-used-list">
-        <el-row
+      <div class="locale-switcher__list">
+        <button
           v-for="(lang, index) in locales"
           :key="index"
+          type="button"
           class="locale-item"
+          @click="switchLocale(lang.code)"
         >
-          <div @click="switchLocale(lang.code)">
-            <locale-block :locale="lang" />
-          </div>
-        </el-row>
+          <locale-block :locale="lang" />
+        </button>
       </div>
     </el-popover>
   </div>
@@ -49,7 +55,36 @@ onMounted(() => {
   text-decoration: none;
 }
 
+.locale-switcher__button {
+  padding: 8px 10px;
+  min-width: 0;
+}
+
+.locale-switcher__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .locale-item:hover {
-  opacity: 0.7;
+  background-color: var(--el-fill-color-light);
+}
+
+.locale-item {
+  display: inline-flex;
+  width: auto;
+  min-width: 0;
+  padding: 6px 8px;
+  color: var(--el-text-color-primary);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+:global(.locale-switcher-popper) {
+  width: auto !important;
+  min-width: 0 !important;
+  padding: 6px !important;
 }
 </style>
