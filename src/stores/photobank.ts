@@ -4,7 +4,7 @@ import { errRequestHandler } from "@/plugins/errorResponser";
 import { useUserStore } from "./user";
 import { ElMessage } from "element-plus";
 import { envConfig } from "@/plugins/envConfig";
-import { useI18n } from "vue-i18n";
+import i18n from "@/plugins/i18n";
 
 export interface SimpleObject {
   [key: string]: any;
@@ -476,7 +476,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     fetchAuthors(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -493,7 +493,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     fetchUsers(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -510,7 +510,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     fetchTags(payload: FilterPayload): Promise<boolean> {
       return axiosClient
@@ -527,7 +527,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     fetchImagesForEditor(ids: number[]): Promise<boolean> {
       const payload = {
@@ -557,7 +557,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     fetchListMain(): Promise<boolean> {
       const raw = JSON.parse(JSON.stringify(this.getFilterSettingsRaw));
@@ -576,7 +576,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     fetchListTrash(): Promise<boolean> {
       const raw = JSON.parse(JSON.stringify(this.getFilterSettingsRaw));
@@ -597,7 +597,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     sendImagesUpd(payload: ImageToUpload[]): Promise<boolean> {
       const copyObj = JSON.parse(JSON.stringify(payload)) as ImageToBackend[];
@@ -629,7 +629,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     sendImages(payload: ImageToUpload[]): Promise<boolean> {
       const form = new FormData();
@@ -662,7 +662,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     undeleteImage(ids: number[]): Promise<boolean> {
       return axiosClient
@@ -678,7 +678,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     sendDeleteImages(ids: number[]): Promise<boolean> {
       return axiosClient
@@ -694,7 +694,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     sendDeleteImagesByUserId(user_id: number): Promise<boolean> {
       return axiosClient
@@ -710,7 +710,7 @@ export const usePhotobankStore = defineStore("photobank", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
   },
 });

@@ -186,22 +186,17 @@ const blureTimeout = (val: string) =>
   }, 200);
 </script>
 <template>
-  <div class="pl-4 pr-4" v-loading="initLoader">
-    <el-row>
-      <el-col>
-        <el-divider class="mt-2 mb-2" />
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :lg="2">
+  <div class="photo-filter" v-loading="initLoader">
+    <div class="photo-filter__grid">
+      <div class="photo-filter__field photo-filter__field--short">
         <el-input
           v-model="filterSettings.data.id"
           :placeholder="$t('d.number')"
           type="number"
           :max="4294967295"
         />
-      </el-col>
-      <el-col :lg="4">
+      </div>
+      <div class="photo-filter__field">
         <el-select
           class="selecter"
           :loading="selectLoading"
@@ -223,8 +218,11 @@ const blureTimeout = (val: string) =>
             :value="tag.id"
           />
         </el-select>
-      </el-col>
-      <el-col :lg="7" v-if="!hiddenDates" style="overflow: auto">
+      </div>
+      <div
+        class="photo-filter__field photo-filter__field--dates"
+        v-if="!hiddenDates"
+      >
         <el-date-picker
           :teleported="true"
           class="selecter"
@@ -237,8 +235,8 @@ const blureTimeout = (val: string) =>
           :shortcuts="shortcuts"
           format="DD-MM-YYYY"
         />
-      </el-col>
-      <el-col :lg="4">
+      </div>
+      <div class="photo-filter__field">
         <el-select
           class="selecter"
           :loading="selectLoading"
@@ -260,8 +258,8 @@ const blureTimeout = (val: string) =>
             :value="source.id"
           />
         </el-select>
-      </el-col>
-      <el-col :lg="4">
+      </div>
+      <div class="photo-filter__field">
         <el-select
           class="selecter"
           :loading="selectLoading"
@@ -283,8 +281,8 @@ const blureTimeout = (val: string) =>
             :value="source.id"
           />
         </el-select>
-      </el-col>
-      <el-col :lg="4">
+      </div>
+      <div class="photo-filter__field">
         <el-select
           class="selecter"
           :loading="selectLoading"
@@ -306,8 +304,8 @@ const blureTimeout = (val: string) =>
             :value="author.id"
           />
         </el-select>
-      </el-col>
-      <el-col :lg="4">
+      </div>
+      <div class="photo-filter__field">
         <el-select
           class="selecter"
           :loading="selectLoading"
@@ -329,8 +327,8 @@ const blureTimeout = (val: string) =>
             :value="user.id"
           />
         </el-select>
-      </el-col>
-      <el-col :lg="3">
+      </div>
+      <div class="photo-filter__field photo-filter__field--short">
         <el-select
           class="selecter"
           collapse-tags
@@ -346,26 +344,63 @@ const blureTimeout = (val: string) =>
             :value="item.value"
           />
         </el-select>
-      </el-col>
-    </el-row>
-    <el-row class="mt-3" justify="center">
-      <el-col :span="24">
-        <el-button-group>
-          <el-button class="m-1" type="success" @click="acceptFilter">{{
-            $t("accept")
-          }}</el-button>
-        </el-button-group>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <el-divider class="mb-0 mt-2" />
-      </el-col>
-    </el-row>
+      </div>
+    </div>
+    <div class="photo-filter__actions">
+      <el-button type="success" @click="acceptFilter">{{
+        $t("accept")
+      }}</el-button>
+    </div>
   </div>
 </template>
 <style>
+.photo-filter {
+  width: 100%;
+}
+
+.photo-filter__grid {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.45fr) repeat(6, minmax(170px, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.photo-filter__field {
+  min-width: 0;
+}
+
+.photo-filter__field--dates {
+  grid-column: span 2;
+}
+
+.photo-filter__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
 .selecter {
-  width: -webkit-fill-available;
+  width: 100%;
+}
+
+@media screen and (max-width: 1180px) {
+  .photo-filter__grid {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+  }
+
+  .photo-filter__field--dates {
+    grid-column: span 2;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .photo-filter__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-filter__field--dates {
+    grid-column: auto;
+    overflow-x: auto;
+  }
 }
 </style>

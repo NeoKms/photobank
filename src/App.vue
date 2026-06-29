@@ -4,8 +4,10 @@ import { useI18n } from "vue-i18n";
 import { computed, watch } from "vue";
 import RuLocale from "element-plus/es/locale/lang/ru";
 import EnLocale from "element-plus/es/locale/lang/en";
+import { useAppTheme } from "@/composables/useAppTheme";
 
 const i18n = useI18n();
+useAppTheme();
 const title = computed(() => i18n.t("title"));
 watch(title, () => (document.title = title.value));
 const locale = computed(() => {

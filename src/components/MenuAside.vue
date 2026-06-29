@@ -2,7 +2,7 @@
 import { Folder, FolderDelete } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 const UserStore = useUserStore();
 const route = useRoute();
 defineProps({
@@ -17,19 +17,9 @@ defineProps({
 });
 ////
 const rights = computed(() => UserStore.getRights);
-const sleep = async (ms: number) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+const openHome = () => {
+  window.location.href = "https://jrgreez.ru";
 };
-onMounted(async () => {
-  let extLink1 = window?.document?.getElementById("external-1");
-  while (!extLink1) {
-    extLink1 = window?.document?.getElementById("external-1");
-    await sleep(50);
-  }
-  extLink1.addEventListener("click", () => {
-    window.location.href = "https://jrgreez.ru";
-  });
-});
 </script>
 <template>
   <el-menu
@@ -69,7 +59,11 @@ onMounted(async () => {
       </el-icon>
       <template #title>{{ $t("menu.settings") }}</template>
     </el-menu-item>
-    <el-menu-item id="external-1">
+    <el-menu-item
+      index="external-home"
+      :route="{ path: route.path }"
+      @click="openHome"
+    >
       <el-icon>
         <HomeFilled />
       </el-icon>

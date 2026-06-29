@@ -46,12 +46,7 @@ const isError = ref(false);
   </el-card>
   <el-card v-show="!isSceleton" class="card" shadow="hover" key="photoncard">
     <template #header>
-      <div
-        class="card__name"
-        :style="{
-          backgroundColor: '#79bbff',
-        }"
-      >
+      <div class="card__name">
         <span>№ {{ cardData.id }}</span>
       </div>
     </template>
@@ -67,7 +62,7 @@ const isError = ref(false);
         @error="isError = true"
       />
     </div>
-    <div>
+    <div class="card__title">
       {{ cardData.name }}
     </div>
     <footer class="card__actions-bar">
@@ -88,30 +83,83 @@ const isError = ref(false);
 <style scoped lang="scss">
 .card {
   display: inline-block;
-  margin: 0 5px;
   position: relative;
-  height: 210px;
   width: 250px;
-  background-color: #f9fafc;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-width: 0;
+  overflow: hidden;
+  margin: 0 5px 10px;
+  background: rgb(255 255 255 / 92%);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   font-size: 12px;
   border-radius: 8px;
   cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    border-color: rgb(94 234 212 / 90%);
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 5%),
+      0 14px 34px rgb(20 184 166 / 12%);
+    transform: translateY(-1px);
+  }
 
   &__name {
     user-select: auto;
-    padding: 5px;
+    min-height: 34px;
+    padding: 8px 10px;
     justify-content: space-between;
     overflow: hidden;
-    background-color: #79bbff;
-    font-weight: bold;
+    background: linear-gradient(135deg, #0f766e, #0284c7);
+    color: #ffffff;
+    font-weight: 750;
     place-content: center;
   }
 
   &__image-preview {
-    height: 117px;
+    height: 148px;
+    background:
+      linear-gradient(135deg, rgb(240 253 250 / 74%), rgb(239 246 255 / 84%)),
+      #f8fafc;
     overflow: hidden;
     place-content: center;
+
+    :deep(.el-image) {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    :deep(.el-image__inner) {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 180ms ease;
+    }
+  }
+
+  &:hover &__image-preview :deep(.el-image__inner) {
+    transform: scale(1.025);
+  }
+
+  &__title {
+    display: block;
+    min-height: 42px;
+    padding: 12px 12px 0;
+    overflow: hidden;
+    color: #0f172a;
+    font-weight: 750;
+    line-height: 1.35;
+    text-overflow: ellipsis;
   }
 
   &__source {
@@ -162,9 +210,9 @@ const isError = ref(false);
   }
 
   &__actions-bar {
-    margin-top: 10px;
-    padding: 0 10px;
-    place-content: space-evenly;
+    justify-content: flex-end;
+    margin-top: 12px;
+    padding: 0 12px 12px;
 
     .button-group {
       width: 100%;
@@ -196,10 +244,19 @@ const isError = ref(false);
 
 .zoom-in-image {
   position: absolute;
-  top: 120px;
-  right: 3px;
+  top: 44px;
+  right: 8px;
   z-index: 2;
-  font-size: 20px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 999px;
+  background: rgb(15 23 42 / 54%);
+  color: #ffffff;
+  font-size: 16px;
+  backdrop-filter: blur(8px);
 }
 
 .last-used {
@@ -241,8 +298,77 @@ const isError = ref(false);
   }
 
   &__image {
-    width: 200px;
-    height: 134px;
+    width: 100%;
+    height: 148px;
   }
+}
+
+:global(html[data-theme="classic"] .card) {
+  display: inline-block;
+  width: 250px;
+  height: 210px;
+  margin: 0 5px 10px;
+  overflow: visible;
+  background-color: #f9fafc;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: none;
+  transform: none;
+}
+
+:global(html[data-theme="classic"] .card:hover) {
+  border-color: var(--el-card-border-color);
+  box-shadow: var(--el-box-shadow-light);
+  transform: none;
+}
+
+:global(html[data-theme="classic"] .card__name) {
+  min-height: auto;
+  padding: 5px;
+  background: #79bbff;
+  color: #000000;
+  font-weight: bold;
+}
+
+:global(html[data-theme="classic"] .card__image-preview) {
+  height: 117px;
+  background: transparent;
+}
+
+:global(html[data-theme="classic"] .card__image-preview)
+  :deep(.el-image__inner) {
+  object-fit: contain;
+  transform: none;
+}
+
+:global(html[data-theme="classic"] .card__title) {
+  display: block;
+  min-height: auto;
+  padding: 0;
+  color: inherit;
+  font-weight: 400;
+}
+
+:global(html[data-theme="classic"] .card__actions-bar) {
+  margin-top: 10px;
+  padding: 0 10px;
+  place-content: space-evenly;
+}
+
+:global(html[data-theme="classic"] .zoom-in-image) {
+  top: 120px;
+  right: 3px;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 20px;
+  backdrop-filter: none;
+}
+
+:global(html[data-theme="classic"] .sceleton-card__image) {
+  width: 200px;
+  height: 134px;
 }
 </style>

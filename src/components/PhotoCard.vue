@@ -125,6 +125,7 @@ const addTagInFilter = (tagStr: string) => {
   <el-card
     v-show="!isSkeleton"
     class="card"
+    :class="{ 'card--selected': isSelected }"
     shadow="hover"
     key="photoncard"
     @dblclick="selectCard"
@@ -132,12 +133,7 @@ const addTagInFilter = (tagStr: string) => {
     @touchstart="touchStart"
   >
     <template #header>
-      <div
-        class="card__name"
-        :style="{
-          backgroundColor: isSelected ? '#95d475' : '#79bbff',
-        }"
-      >
+      <div class="card__name">
         <span>№ {{ cardData.id }}</span>
       </div>
     </template>
@@ -264,36 +260,92 @@ const addTagInFilter = (tagStr: string) => {
 <style scoped lang="scss">
 .card {
   display: inline-block;
-  margin: 0 5px;
   position: relative;
-  height: fit-content;
   width: 210px;
-  background-color: #f9fafc;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-width: 0;
+  overflow: hidden;
+  margin: 0 5px 10px;
+  background: rgb(255 255 255 / 92%);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   font-size: 12px;
   border-radius: 8px;
   cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    border-color: rgb(94 234 212 / 90%);
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 5%),
+      0 14px 34px rgb(20 184 166 / 12%);
+    transform: translateY(-1px);
+  }
+
+  &--selected {
+    border-color: rgb(20 184 166 / 86%) !important;
+    box-shadow:
+      0 0 0 2px rgb(45 212 191 / 28%),
+      0 18px 38px rgb(15 118 110 / 12%);
+  }
 
   &__name {
     user-select: auto;
+    min-height: auto;
     padding: 5px;
     justify-content: space-between;
     overflow: hidden;
-    background-color: #79bbff;
-    font-weight: bold;
+    background: linear-gradient(135deg, #0f766e, #0284c7);
+    color: #ffffff;
+    font-weight: 750;
+    letter-spacing: 0;
     place-content: center;
+  }
+
+  &--selected &__name {
+    background: linear-gradient(135deg, #047857, #0f766e 54%, #f59e0b);
   }
 
   &__image-preview {
     height: 117px;
+    background:
+      linear-gradient(135deg, rgb(240 253 250 / 74%), rgb(239 246 255 / 84%)),
+      #f8fafc;
     overflow: hidden;
     place-content: center;
+
+    :deep(.el-image) {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    :deep(.el-image__inner) {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 180ms ease;
+    }
+  }
+
+  &:hover &__image-preview :deep(.el-image__inner) {
+    transform: scale(1.025);
   }
 
   &__source {
     height: 17px;
+    min-height: 17px;
     line-height: 15px;
     padding: 0 10px;
+    color: #0f172a;
     text-overflow: ellipsis;
     overflow: hidden;
     display: -moz-box !important;
@@ -303,13 +355,16 @@ const addTagInFilter = (tagStr: string) => {
     -webkit-box-orient: vertical;
     line-clamp: 1;
     box-orient: vertical;
-    font-weight: bold;
+    font-weight: 750;
   }
 
   &__author {
     height: 17px;
+    min-height: 17px;
+    margin-top: 0;
     line-height: 15px;
     padding: 0 10px;
+    color: #475569;
     text-overflow: ellipsis;
     overflow: hidden;
     display: -moz-box !important;
@@ -329,27 +384,35 @@ const addTagInFilter = (tagStr: string) => {
   &__tag-list {
     align-items: flex-start !important;
     flex-wrap: wrap;
+    align-content: flex-start;
     padding: 0 10px;
     height: 50px;
     margin: 10px 0;
     overflow-y: auto;
+    gap: 0;
   }
 
   &__creator_block {
     height: 10px;
+    min-height: 10px;
     padding: 0 10px;
-    flex-direction: column;
+    color: #64748b;
     align-items: flex-start !important;
-    font-weight: bold;
+    font-weight: 650;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    gap: 8px;
 
     .date {
       margin-left: 4px;
+      white-space: nowrap;
     }
 
     .creator {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -375,11 +438,15 @@ const addTagInFilter = (tagStr: string) => {
 .tag-list__item {
   margin: 0 10px 5px 0;
   height: fit-content;
+  border-color: rgb(203 213 225 / 80%);
+  background: rgb(248 250 252 / 92%);
+  color: #475569;
+  font-weight: 600;
 }
 
 .tag-list__item:hover {
   opacity: 0.8;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 1px rgb(20 184 166 / 35%);
 }
 
 .zoom-in-image {
@@ -387,13 +454,24 @@ const addTagInFilter = (tagStr: string) => {
   top: 120px;
   right: 3px;
   z-index: 2;
-  font-size: 20px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 999px;
+  background: rgb(15 23 42 / 54%);
+  color: #ffffff;
+  font-size: 16px;
+  backdrop-filter: blur(8px);
 }
 
 .last-used {
-  border-radius: 15px;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 999px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 6px;
   align-items: center;
   position: absolute;
   min-width: 70px;
@@ -402,9 +480,11 @@ const addTagInFilter = (tagStr: string) => {
   top: 58px;
   padding: 0 10px;
   box-sizing: border-box;
-  background-color: rgb(121, 187, 255);
-  color: #000;
+  background: rgb(255 255 255 / 82%);
+  color: #0f172a;
+  font-weight: 750;
   z-index: 2;
+  backdrop-filter: blur(8px);
 }
 
 .last-used-list {
@@ -431,5 +511,120 @@ const addTagInFilter = (tagStr: string) => {
     width: 200px;
     height: 134px;
   }
+}
+
+:global(html[data-theme="classic"] .card) {
+  display: inline-block;
+  width: 210px;
+  margin: 0 5px 10px;
+  overflow: visible;
+  background-color: #f9fafc;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: none;
+  transform: none;
+}
+
+:global(html[data-theme="classic"] .card:hover) {
+  border-color: var(--el-card-border-color);
+  box-shadow: var(--el-box-shadow-light);
+  transform: none;
+}
+
+:global(html[data-theme="classic"] .card--selected) {
+  border-color: var(--el-card-border-color) !important;
+  box-shadow: none;
+}
+
+:global(html[data-theme="classic"] .card__name) {
+  min-height: auto;
+  padding: 5px;
+  background: #79bbff;
+  color: #000000;
+  font-weight: bold;
+}
+
+:global(html[data-theme="classic"] .card--selected .card__name) {
+  background: #95d475;
+}
+
+:global(html[data-theme="classic"] .card__image-preview) {
+  height: 117px;
+  background: transparent;
+}
+
+:global(html[data-theme="classic"] .card__image-preview)
+  :deep(.el-image__inner) {
+  object-fit: contain;
+  transform: none;
+}
+
+:global(html[data-theme="classic"] .card__author) {
+  min-height: 17px;
+  margin-top: 0;
+  padding: 0 10px;
+  color: inherit;
+  font-weight: 400;
+}
+
+:global(html[data-theme="classic"] .card__source) {
+  min-height: 17px;
+  padding: 0 10px;
+  color: inherit;
+  font-weight: bold;
+}
+
+:global(html[data-theme="classic"] .card__tag-list) {
+  height: 50px;
+  padding: 0 10px;
+  gap: 0;
+}
+
+:global(html[data-theme="classic"] .tag-list__item) {
+  margin: 0 10px 5px 0;
+  background: var(--el-fill-color-light);
+  color: var(--el-text-color-regular);
+  font-weight: 400;
+}
+
+:global(html[data-theme="classic"] .card__creator_block) {
+  min-height: 10px;
+  padding: 0 10px;
+  color: inherit;
+  font-weight: bold;
+}
+
+:global(html[data-theme="classic"] .card__actions-bar) {
+  margin-top: 10px;
+  padding: 0 10px 5px;
+}
+
+:global(html[data-theme="classic"] .zoom-in-image) {
+  top: 120px;
+  right: 3px;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 20px;
+  backdrop-filter: none;
+}
+
+:global(html[data-theme="classic"] .last-used) {
+  top: 58px;
+  left: 10px;
+  min-width: 70px;
+  height: 30px;
+  border: 0;
+  border-radius: 15px;
+  background-color: rgb(121, 187, 255);
+  color: #000000;
+  backdrop-filter: none;
+}
+
+:global(html[data-theme="classic"] .sceleton-card__image) {
+  width: 200px;
+  height: 134px;
 }
 </style>

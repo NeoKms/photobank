@@ -20,7 +20,7 @@ import PhotoPreviewCollapse from "./PhotoPreviewCollapse.vue";
 import { useI18n } from "vue-i18n";
 const props = defineProps({
   externalDropImages: {
-    type: FileList,
+    type: [FileList, Array],
     default: () => [],
   },
 });
@@ -182,7 +182,10 @@ onMounted(() => {
   }).then((res) => {
     if (errVueHandler(res, i18n.t("errors.init"), i18n)) {
       hideLoader();
-      if (props.externalDropImages.length) {
+      if (
+        props.externalDropImages instanceof FileList &&
+        props.externalDropImages.length
+      ) {
         changeFileInput(props.externalDropImages);
       }
     }
@@ -796,6 +799,27 @@ watch(contrast, () => changeCanvasImage());
 .uploader-card {
   max-height: 99vh;
   overflow: auto;
+  border: 1px solid rgb(203 213 225 / 80%);
+  background:
+    radial-gradient(circle at 12% 0%, rgb(20 184 166 / 8%), transparent 22rem),
+    #ffffff;
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 5%),
+    0 18px 46px rgb(15 23 42 / 6%);
+}
+
+.card__header {
+  background: rgb(248 250 252 / 80%);
+  border-bottom: 1px solid rgb(226 232 240 / 80%);
+}
+
+.card__footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background: rgb(255 255 255 / 92%);
+  border-top: 1px solid rgb(226 232 240 / 80%);
+  backdrop-filter: blur(10px);
 }
 
 .tag-element {
@@ -825,7 +849,12 @@ watch(contrast, () => changeCanvasImage());
 
 .cropper {
   height: 470px;
-  background: #ddd;
+  border: 1px solid rgb(203 213 225 / 80%);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgb(240 253 250 / 50%), rgb(239 246 255 / 70%)),
+    #e2e8f0;
+  overflow: hidden;
 }
 
 .preview {
@@ -837,11 +866,23 @@ watch(contrast, () => changeCanvasImage());
 
 .drop {
   align-items: center;
-  border: 2px dotted grey;
+  border: 1px dashed rgb(20 184 166 / 70%);
+  border-radius: 8px;
   margin: auto;
   cursor: pointer;
   display: grid;
   text-align: center;
+  background: rgb(240 253 250 / 45%);
+  color: #0f766e;
+  font-weight: 650;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.drop:hover {
+  border-color: #0f766e;
+  background: rgb(204 251 241 / 60%);
 }
 
 .preview-image {
@@ -853,11 +894,19 @@ watch(contrast, () => changeCanvasImage());
 .image-list {
   max-height: 480px;
   overflow-y: auto;
+  border-color: rgb(203 213 225 / 80%);
+  box-shadow: none;
 }
 
 .preview-block {
-  border-radius: 10px;
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 8px;
   margin-bottom: 10px;
+  padding: 4px;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
 }
 
 .preview-block:last-child {
@@ -870,8 +919,13 @@ watch(contrast, () => changeCanvasImage());
 }
 
 .preview-block.active .preview-title {
-  color: red;
+  color: #0f766e;
   text-decoration-line: underline;
+}
+
+.preview-block.active {
+  border-color: rgb(20 184 166 / 70%);
+  background: rgb(240 253 250 / 55%);
 }
 
 @media screen and (min-height: 900px) {
@@ -898,5 +952,41 @@ watch(contrast, () => changeCanvasImage());
   position: absolute;
   left: 8px;
   top: 8px;
+}
+
+:global(html[data-theme="classic"] .uploader-card) {
+  border: 1px solid var(--el-card-border-color);
+  background: #ffffff;
+  box-shadow: var(--el-box-shadow-light);
+}
+
+:global(html[data-theme="classic"] .card__header),
+:global(html[data-theme="classic"] .card__footer) {
+  background: #ffffff;
+  border: 0;
+  backdrop-filter: none;
+}
+
+:global(html[data-theme="classic"] .cropper) {
+  border: 0;
+  border-radius: 0;
+  background: #ddd;
+}
+
+:global(html[data-theme="classic"] .drop) {
+  border: 2px dotted grey;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: 400;
+}
+
+:global(html[data-theme="classic"] .preview-block.active) {
+  border-color: transparent;
+  background: transparent;
+}
+
+:global(html[data-theme="classic"] .preview-block.active .preview-title) {
+  color: red;
 }
 </style>

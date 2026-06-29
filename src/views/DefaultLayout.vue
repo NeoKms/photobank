@@ -4,11 +4,13 @@ import { RouterView } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import Menu from "@/components/MenuAside.vue";
 import LocaleSwitcher from "@/components/locale/LocaleSwitcher.vue";
+import { useAppTheme } from "@/composables/useAppTheme";
 const isCollapse = ref(true);
 const UserStore = useUserStore();
 const userInfo = computed(() => UserStore.getUser);
 const logout = () => UserStore.logout();
 const loader = computed(() => UserStore.getLoader);
+const { isClassicTheme, themeToggleLabel, toggleTheme } = useAppTheme();
 </script>
 
 <template>
@@ -16,10 +18,7 @@ const loader = computed(() => UserStore.getLoader);
     <el-container>
       <el-header class="navbar">
         <el-container class="toolbar first">
-          <div
-            class="hidden-xs-only"
-            style="display: flex; align-items: center"
-          >
+          <div class="brand-block hidden-xs-only">
             <el-button
               class="hidden-sm-and-down"
               type="primary"
@@ -30,8 +29,13 @@ const loader = computed(() => UserStore.getLoader);
                 <Expand />
               </el-icon>
             </el-button>
-            <el-image src="/favicon.png" class="ml-2 logo-image" />
-            <span class="logo-text">{{ $t("title") }}</span>
+            <div class="brand-mark">
+              <el-image src="/favicon.png" class="logo-image" />
+            </div>
+            <div class="brand-title">
+              <span class="logo-text">{{ $t("title") }}</span>
+              <span class="brand-caption">Media archive</span>
+            </div>
           </div>
           <div class="hidden-md-and-up menu-block-mobile">
             <Menu
@@ -40,17 +44,27 @@ const loader = computed(() => UserStore.getLoader);
               :is-horizontal="true"
             />
           </div>
-          <div style="display: flex; align-items: center">
+          <div class="user-toolbar">
             <div class="pl-2 pr-2"><locale-switcher /></div>
-            <span class="hidden-xs-only">{{ userInfo?.fullname }}</span>
-            <span class="hidden-md-and-up">{{
+            <el-tooltip :content="themeToggleLabel" placement="bottom">
+              <el-button
+                class="theme-toggle"
+                circle
+                :type="isClassicTheme ? 'primary' : 'default'"
+                @click="toggleTheme"
+              >
+                <el-icon>
+                  <Brush />
+                </el-icon>
+              </el-button>
+            </el-tooltip>
+            <span class="hidden-xs-only user-name">{{
+              userInfo?.fullname
+            }}</span>
+            <span class="hidden-md-and-up user-name">{{
               userInfo?.fullname?.split(" ")[0]
             }}</span>
-            <el-icon
-              class="user-block"
-              @click="logout"
-              style="margin-left: 8px"
-            >
+            <el-icon class="user-block" @click="logout" :size="22">
               <SwitchButton />
             </el-icon>
           </div>

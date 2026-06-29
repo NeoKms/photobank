@@ -60,6 +60,8 @@
     "rollback_image": "Are you sure you want to return the image?",
     "delete": "Are you sure you want to delete the image?"
   },
+  "old_design": "Old design",
+  "new_design": "New design",
   "d": {
     "type": "Type",
     "type_photo": "Photo",

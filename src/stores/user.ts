@@ -3,7 +3,7 @@ import { axiosClient } from "@/plugins/axios";
 import { envConfig } from "@/plugins/envConfig";
 import type { SimpleObject } from "./photobank";
 import { errRequestHandler } from "@/plugins/errorResponser";
-import { useI18n } from "vue-i18n";
+import i18n from "@/plugins/i18n";
 
 type User = {
   id: number;
@@ -55,7 +55,7 @@ export const useUserStore = defineStore("user", {
             return respdata.message || -1;
           }
         })
-        .catch((e) => errRequestHandler(e, useI18n()));
+        .catch((e) => errRequestHandler(e, i18n.global));
     },
     showLoader() {
       this.globalLoader = true;

@@ -166,9 +166,43 @@ const sendImages = () => {
 .uploader-card {
   max-height: 86vh;
   overflow: auto;
+  border: 1px solid rgb(203 213 225 / 80%);
+  background:
+    radial-gradient(circle at 12% 0%, rgb(20 184 166 / 8%), transparent 22rem),
+    #ffffff;
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 5%),
+    0 18px 46px rgb(15 23 42 / 6%);
 }
 
 .el-row {
   padding: 5px;
+}
+
+.card__header {
+  background: rgb(248 250 252 / 80%);
+  border-bottom: 1px solid rgb(226 232 240 / 80%);
+}
+
+.card__footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  background: rgb(255 255 255 / 92%);
+  border-top: 1px solid rgb(226 232 240 / 80%);
+  backdrop-filter: blur(10px);
+}
+
+:global(html[data-theme="classic"] .uploader-card) {
+  border: 1px solid var(--el-card-border-color);
+  background: #ffffff;
+  box-shadow: var(--el-box-shadow-light);
+}
+
+:global(html[data-theme="classic"] .card__header),
+:global(html[data-theme="classic"] .card__footer) {
+  background: #ffffff;
+  border: 0;
+  backdrop-filter: none;
 }
 </style>

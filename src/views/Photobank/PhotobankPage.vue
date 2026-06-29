@@ -160,67 +160,61 @@ const dragLeave = () => {
 </script>
 
 <template>
-  <div>
-    <el-row class="pt-2 pb-1 sticky-row sticky-top" justify="center">
+  <div class="app-page">
+    <el-row class="sticky-row sticky-top photo-toolbar" justify="center">
       <el-col :span="24">
-        <el-row justify="center">
-          <el-col style="text-align: center">
-            <el-button-group class="mr-3">
-              <el-input
-                v-model="filterSettings.data.search"
-                style="width: auto"
-                :placeholder="$t('d.search_in_photos')"
-                prefix-icon="Search"
-              />
-            </el-button-group>
-            <el-button-group class="mr-3">
-              <el-button
-                @click="showFilter = !showFilter"
-                type="primary"
-                icon="Filter"
-                >{{ $t("d.filters") }}
-                {{
-                  filterSettings.applyCnt > 0
-                    ? `[${filterSettings.applyCnt}]`
-                    : ""
-                }}</el-button
-              >
-              <el-button type="warning" icon="Refresh" @click="clearFiltres" />
-            </el-button-group>
-            <el-button @click="apiCall" icon="Refresh">{{
-              $t("refresh")
+        <div class="photo-toolbar__content">
+          <el-button-group>
+            <el-input
+              v-model="filterSettings.data.search"
+              :placeholder="$t('d.search_in_photos')"
+              prefix-icon="Search"
+            />
+          </el-button-group>
+          <el-button-group>
+            <el-button
+              @click="showFilter = !showFilter"
+              type="primary"
+              icon="Filter"
+              >{{ $t("d.filters") }}
+              {{
+                filterSettings.applyCnt > 0
+                  ? `[${filterSettings.applyCnt}]`
+                  : ""
+              }}</el-button
+            >
+            <el-button type="warning" icon="Refresh" @click="clearFiltres" />
+          </el-button-group>
+          <el-button @click="apiCall" icon="Refresh">{{
+            $t("refresh")
+          }}</el-button>
+          <el-button
+            type="success"
+            @click="uploaderModal = true"
+            icon="FolderAdd"
+            >{{ $t("d.add_photo") }}</el-button
+          >
+          <el-button-group v-if="selected.size">
+            <el-button @click="editorModal = true" type="primary" icon="Edit">{{
+              $t("d.edit_selected_photo")
             }}</el-button>
             <el-button
-              type="success"
-              @click="uploaderModal = true"
-              icon="FolderAdd"
-              >{{ $t("d.add_photo") }}</el-button
+              type="danger"
+              @click="delPhoto(Array.from(selected), true)"
+              icon="Delete"
+              >{{ $t("d.delete_selected_photo") }}
+            </el-button>
+            <el-button
+              @click="selected.clear()"
+              type="warning"
+              icon="RefreshRight"
+              >{{ $t("d.refresh_selected") }}</el-button
             >
-            <el-button-group class="ml-3" v-if="selected.size">
-              <el-button
-                @click="editorModal = true"
-                type="primary"
-                icon="Edit"
-                >{{ $t("d.edit_selected_photo") }}</el-button
-              >
-              <el-button
-                type="danger"
-                @click="delPhoto(Array.from(selected), true)"
-                icon="Delete"
-                >{{ $t("d.delete_selected_photo") }}
-              </el-button>
-              <el-button
-                @click="selected.clear()"
-                type="warning"
-                icon="RefreshRight"
-                >{{ $t("d.refresh_selected") }}</el-button
-              >
-            </el-button-group>
-          </el-col>
-        </el-row>
+          </el-button-group>
+        </div>
         <transition name="el-zoom-in-top">
-          <el-row v-show="showFilter" justify="center">
-            <el-col style="text-align: center">
+          <el-row v-show="showFilter" class="filter-panel" justify="center">
+            <el-col>
               <PhotoFilter @apply="apiCall" />
             </el-col>
           </el-row>
@@ -229,7 +223,7 @@ const dragLeave = () => {
     </el-row>
     <el-skeleton animated :loading="initLoader">
       <template #template>
-        <div class="p-2 card-list">
+        <div class="card-list">
           <PhotoCard
             v-for="ind in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
             :key="ind"
@@ -240,7 +234,7 @@ const dragLeave = () => {
       <template #default>
         <div
           ref="dropFieldPage"
-          class="p-2 card-list"
+          class="card-list"
           @drop="drop($event)"
           @drag.stop.prevent="stopAll"
           @dragstart.stop.prevent="stopAll"
@@ -288,7 +282,7 @@ const dragLeave = () => {
     </el-skeleton>
     <el-row
       v-if="imageList.length"
-      class="pt-2 pb-1 sticky-row sticky-bottom"
+      class="sticky-row sticky-bottom"
       justify="center"
     >
       <el-pagination
@@ -344,18 +338,4 @@ const dragLeave = () => {
     />
   </el-dialog>
 </template>
-<style scoped lang="scss">
-.sticky-row {
-  position: sticky;
-  z-index: 3;
-  background-color: white;
-
-  &.sticky-bottom {
-    bottom: -2px;
-  }
-
-  &.sticky-top {
-    top: -2px;
-  }
-}
-</style>
+<style scoped lang="scss"></style>
